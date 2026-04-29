@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BIOWINGER OS v4.0 - Football Performance Lab</title>
+    
+    <!-- Fonts -->
+    <link href="https://googleapis.com" rel="stylesheet">
+
+    <style>
+        /* 
+            BIOWINGER OS v4.0 - MASTER STYLE SHEET 
+            Fiel ao design original, expandido para máxima escala.
+        */
+
+        :root {
+            --primary: #2ecc71;
+            --primary-dark: #27ae60;
+            --primary-light: #d1f2eb;
+            --accent-mint: #1abc9c;
+            --white: #ffffff;
+            --snow: #f8fafc;
+            --slate-50: #f1f5f9;
+            --slate-100: #e2e8f0;
+            --slate-500: #64748b;
+            --slate-800: #1e293b;
+            --slate-900: #0f172a;
+            --danger: #ff4757;
+            --warning: #f1c40f;
+            --success: #2ecc71;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.12);
+            --shadow-md: 0 10px 15px -3px rgba(0,0,0,0.05);
+            --shadow-pro: 0 20px 40px -10px rgba(46, 204, 113, 0.2);
+            --radius-lg: 24px;
+            --radius-md: 16px;
+            --nav-height: 80px;
+            --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--snow);
+            color: var(--slate-800);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container { max-width: 1300px; margin: 0 auto; padding: 0 25px; }
+
+        /* LOADER */
+.system-loader {
+    position: fixed; 
+    inset: 0; 
+    background: var(--white);
+    display: flex; 
+    flex-direction: column; /* Alinha os itens um embaixo do outro */
+    align-items: center;    /* Centraliza horizontalmente */
+    justify-content: center;   /* Centraliza verticalmente */
+    z-index: 2000; 
+    transition: opacity 0.6s ease;
+}
+
+.spinner {
+    width: 50px; 
+    height: 50px; 
+    border: 4px solid var(--primary-light);
+    border-top: 4px solid var(--primary); 
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    /* Removi o margin-bottom fixo para não deslocar o centro perfeito */
+}
+
+@keyframes spin { 
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); } 
+}
+
+        /* NAV */
+        .main-nav {
+            height: var(--nav-height); background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(15px); border-bottom: 1px solid var(--slate-100);
+            position: fixed; top: 0; width: 100%; z-index: 1000;
+            display: flex; align-items: center;
+        }
+        .nav-container { width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 0 25px; }
+        .brand { display: flex; align-items: center; gap: 10px; }
+        .version-badge { font-size: 0.65rem; background: var(--primary-light); color: var(--primary-dark); padding: 2px 8px; border-radius: 6px; }
+
+        /* HERO */
+        .hero-section { padding: 160px 0 80px; background: radial-gradient(circle at 80% 20%, var(--primary-light) 0%, transparent 40%); }
+        .status-indicator {
+            display: inline-flex; align-items: center; gap: 10px;
+            background: var(--white); padding: 8px 16px; border-radius: 50px;
+            font-size: 0.8rem; font-weight: 700; color: var(--primary-dark); box-shadow: var(--shadow-sm);
+        }
+        .pulse-dot { width: 8px; height: 8px; background: var(--primary); border-radius: 50%; animation: pulse-ring 1.5s infinite; }
+        @keyframes pulse-ring { 0% { box-shadow: 0 0 0 0 rgba(46, 204, 113, 0.4); } 70% { box-shadow: 0 0 0 8px rgba(46, 204, 113, 0); } }
+
+        h1 { font-size: 4rem; line-height: 1.1; font-weight: 800; letter-spacing: -2.5px; margin: 25px 0; }
+        .text-gradient { background: linear-gradient(135deg, var(--primary-dark), var(--accent-mint)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+        /* GRID */
+        .clinical-grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: 30px; margin-bottom: 80px; }
+        .glass { background: var(--white); border-radius: var(--radius-lg); border: 1px solid var(--slate-100); box-shadow: var(--shadow-md); padding: 40px; }
+        .card-shadow:hover { box-shadow: var(--shadow-pro); transform: translateY(-5px); transition: var(--transition-smooth); }
+
+        /* FORM */
+        .input-field { margin-bottom: 25px; }
+        .input-field label { display: block; font-size: 0.85rem; font-weight: 700; margin-bottom: 8px; color: var(--slate-500); }
+        .input-field select, .input-field input {
+            width: 100%; padding: 14px 18px; border-radius: 12px; border: 2px solid var(--slate-50);
+            background: var(--snow); font-family: inherit; font-size: 0.95rem;
+        }
+
+        /* SLIDER */
+        .styled-slider { width: 100%; appearance: none; height: 10px; background: var(--slate-100); border-radius: 10px; outline: none; }
+        .styled-slider::-webkit-slider-thumb { appearance: none; width: 26px; height: 26px; background: var(--primary); border: 5px solid var(--white); border-radius: 50%; cursor: pointer; }
+
+        /* LOGS */
+        .log-entry { 
+            background: var(--snow); padding: 20px; border-radius: 18px; margin-bottom: 15px; 
+            border-left: 4px solid var(--primary); animation: slide-in 0.4s ease-out;
+        }
+        @keyframes slide-in { from { opacity: 0; transform: translateX(20px); } }
+
+        /* WORKOUT RESULT - DESIGN PREMIUM */
+        #trainingOutput { display: none; margin-bottom: 100px; }
+        .exercise-detail-card {
+            background: var(--white); border-radius: 32px; padding: 40px; margin-bottom: 30px;
+            border: 1px solid var(--slate-100); display: grid; grid-template-columns: 350px 1fr; gap: 40px;
+        }
+        .instruction-box { background: var(--slate-50); border-radius: 20px; padding: 25px; }
+        .instruction-step { display: flex; gap: 15px; margin-bottom: 15px; font-size: 0.9rem; }
+        .step-number { background: var(--primary); color: white; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: 800; flex-shrink: 0; }
+        
+        .badge-pos { background: var(--primary-light); color: var(--primary-dark); padding: 4px 12px; border-radius: 8px; font-weight: 800; font-size: 0.7rem; text-transform: uppercase; }
+        
+        /* ANATOMY SECTION */
+        .anatomy-mini { width: 100%; height: 250px; background: var(--snow); border-radius: 20px; margin-top: 20px; display: flex; align-items: center; justify-content: center; }
+
+        @media (max-width: 1024px) {
+            .clinical-grid, .exercise-detail-card { grid-template-columns: 1fr; }
+            h1 { font-size: 2.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- SYSTEM LOADER -->
+    <div class="system-loader" id="loader">
+        <div style="text-align: center;">
+            <div class="spinner"></div>
+            <div style="font-weight: 800; font-size: 1.2rem; color: var(--slate-900);">BIOWINGER <span style="color: var(--primary);">OS</span></div>
+            <div style="font-size: 0.8rem; color: var(--slate-500);">Calibrando Vetores Biomecânicos...</div>
+        </div>
+    </div>
+
+    <!-- NAVBAR -->
+    <nav class="main-nav">
+        <div class="nav-container">
+            <div class="brand">
+                <div style="width: 35px; height: 35px; background: var(--primary); border-radius: 10px;"></div>
+                <div class="brand-text"><span style="font-weight: 800; color: var(--slate-900);">PERFORMANCE</span><span class="version-badge">PRO v4.0</span></div>
+            </div>
+            <div style="font-weight: 700; font-size: 0.85rem; color: var(--slate-500);">ID: ATLETA_DE_ELITE</div>
+        </div>
+    </nav>
+
+    <main class="container">
+        <!-- HERO -->
+        <section class="hero-section">
+            <div class="status-indicator"><div class="pulse-dot"></div>IA DE PREVENÇÃO E PERFORMANCE ATIVA</div>
+            <h1>Otimize seu <span class="text-gradient">Jogo.</span><br>Treine com Ciência.</h1>
+            <p style="max-width: 600px; color: var(--slate-500); margin-top: 20px; font-weight: 500;">
+                O BIOWINGER OS gera protocolos de treinamento baseados na demanda metabólica e biomecânica de cada posição no futebol moderno.
+            </p>
+        </section>
+
+        <!-- DASHBOARD GRID -->
+        <div class="clinical-grid">
+            
+            <!-- CONFIG PANEL -->
+            <div class="glass card-shadow">
+                <h2 style="margin-bottom: 30px; letter-spacing: -1px;">Parâmetros do Atleta</h2>
+                <form id="trainerForm">
+                    <div class="input-field">
+                        <label>POSIÇÃO TÁTICA</label>
+                        <select id="posicao">
+                            <option value="GK">GOLEIRO (REATIVIDADE/EXPLOSÃO)</option>
+                            <option value="DEF">ZAGUEIRO (FORÇA/ESTABILIDADE)</option>
+                            <option value="MID">MEIO-CAMPO (RESISTÊNCIA/GIRO)</option>
+                            <option value="WG">PONTA (VELOCIDADE/DRIBLE)</option>
+                            <option value="ST">ATACANTE (PIVÔ/FINALIZAÇÃO)</option>
+                        </select>
+                    </div>
+
+                    <div class="input-field">
+                        <label>NÍVEL DE INTENSIDADE DESEJADO</label>
+                        <select id="nivel">
+                            <option value="low">RECUPERAÇÃO ATIVA</option>
+                            <option value="med" selected>MANUTENÇÃO DE TEMPORADA</option>
+                            <option value="high">ALTA PERFORMANCE (PRÉ-JOGO)</option>
+                        </select>
+                    </div>
+
+                    <div style="margin: 40px 0;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 15px;">
+                            <label style="font-size: 0.8rem; font-weight: 800; color: var(--slate-500);">FADIGA MUSCULAR (0-10)</label>
+                            <span id="fadigaLabel" style="background: var(--slate-900); color: white; padding: 2px 10px; border-radius: 6px; font-weight: 800;">0</span>
+                        </div>
+                        <input type="range" id="fadigaSlider" min="0" max="10" value="0" class="styled-slider">
+                    </div>
+
+                    <button type="submit" style="width: 100%; padding: 20px; border-radius: 16px; border: none; background: var(--primary); color: white; font-weight: 800; cursor: pointer; font-size: 1rem; box-shadow: 0 10px 20px rgba(46, 204, 113, 0.3);">GERAR PROTOCOLO IA</button>
+                </form>
+            </div>
+
+            <!-- TERMINAL PANEL -->
+            <div class="glass card-shadow" style="background: var(--white); display: flex; flex-direction: column;">
+                <h3 style="font-size: 0.9rem; margin-bottom: 20px; color: var(--slate-500);">SISTEMA DE ANÁLISE NEURAL</h3>
+                <div id="logContainer" style="flex: 1; overflow-y: auto; max-height: 400px;">
+                    <div class="log-entry">Aguardando definição de posição...</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- WORKOUT SECTION -->
+        <section id="trainingOutput">
+            <h2 style="margin-bottom: 40px; font-size: 2.2rem; letter-spacing: -1.5px;">Protocolo de <span class="text-gradient">Treinamento Gerado</span></h2>
+            <div id="exerciseList">
+                <!-- Injetado via JS -->
+            </div>
+        </section>
+    </main>
+    <div class="nav-back">
+        <a href="main.html" class="btn-nav">← Voltar ao Laboratório</a>
+    </div>
+    <script>
+        // --- DATA ENGINE (MÁXIMA QUANTIDADE DE EXERCÍCIOS) ---
+        const EXERCISES = {
+            GK: [
+                {
+                    name: "Salto Lateral Pliométrico",
+                    sets: "4 x 8 Repetições",
+                    bio: "Treina o Ciclo de Alongamento-Encurtamento (CEA) para defesas explosivas.",
+                    steps: [
+                        "Fique em posição de expectativa (joelhos levemente flexionados).",
+                        "Salte lateralmente com o máximo de força possível.",
+                        "Aterrisse com a ponta dos pés e absorva o impacto.",
+                        "Repita para o outro lado sem pausa."
+                    ]
+                },
+                {
+                    name: "Prancha 'Dead-Bug' Dinâmica",
+                    sets: "3 x 12 Repetições",
+                    bio: "Fortalece o core e a dissociação de membros, vital para quedas controladas.",
+                    steps: [
+                        "Deitado de costas, levante braços e pernas em 90 graus.",
+                        "Lentamente, desça o braço direito e a perna esquerda até quase tocar o chão.",
+                        "Mantenha a lombar colada ao solo o tempo todo.",
+                        "Retorne e alterne os lados."
+                    ]
+                },
+                {
+                    name: "Flexão Reativa com Toque no Ombro",
+                    sets: "3 x 10 Repetições",
+                    bio: "Estabilidade de ombro e potência de empurre para espalmar bolas.",
+                    steps: [
+                        "Faça uma flexão explosiva subindo rápido.",
+                        "No topo, toque o ombro oposto com uma mão, mantendo o quadril estável.",
+                        "Não deixe o corpo girar durante o toque.",
+                        "Controle a descida."
+                    ]
+                }
+            ],
+            DEF: [
+                {
+                    name: "Agachamento Búlgaro",
+                    sets: "4 x 10 Repetições",
+                    bio: "Desenvolve força unilateral massiva para ganhar disputas de corpo.",
+                    steps: [
+                        "Apoie um pé atrás em uma cadeira ou sofá.",
+                        "Mantenha o peito aberto e o peso no calcanhar do pé da frente.",
+                        "Desça até o joelho de trás quase tocar o chão.",
+                        "Suba empurrando o chão com força total."
+                    ]
+                },
+                {
+                    name: "Ponte de Glúteo Unilateral",
+                    sets: "3 x 15 Repetições",
+                    bio: "Prevenção de lesão de posterior e potência de arranque.",
+                    steps: [
+                        "Deitado, apoie apenas um calcanhar no chão.",
+                        "Eleve o quadril até alinhar coxa e tronco.",
+                        "Aperte o glúteo no topo por 1 segundo.",
+                        "Desça devagar."
+                    ]
+                },
+                {
+                    name: "Prancha Lateral com Elevação de Perna",
+                    sets: "3 x 10 cada lado",
+                    bio: "Estabilidade lateral para marcação individual e mudanças de direção.",
+                    steps: [
+                        "Fique em prancha lateral sobre o cotovelo.",
+                        "Mantenha o corpo reto como uma linha.",
+                        "Abra a perna de cima como uma tesoura.",
+                        "Mantenha o controle na descida."
+                    ]
+                }
+            ],
+            MID: [
+                {
+                    name: "Burpees com Salto 180º",
+                    sets: "4 x 12 Repetições",
+                    bio: "Resistência cardiovascular e percepção espacial para giros em campo.",
+                    steps: [
+                        "Realize um burpee completo tocando o peito no chão.",
+                        "Ao subir, salte girando o corpo 180 graus no ar.",
+                        "Aterrisse suavemente e já inicie a próxima repetição.",
+                        "Simula a transição defesa-ataque."
+                    ]
+                },
+                {
+                    name: "Afundo Reversa com Rotação",
+                    sets: "3 x 12 Repetições",
+                    bio: "Mobilidade tóraco-lombar essencial para passes longos e lançamentos.",
+                    steps: [
+                        "Dê um passo longo para trás em afundo.",
+                        "Com as mãos à frente, gire o tronco sobre a perna que ficou na frente.",
+                        "Mantenha o olhar no horizonte.",
+                        "Retorne à posição inicial com equilíbrio."
+                    ]
+                },
+                {
+                    name: "Mountain Climbers 'Sprint'",
+                    sets: "4 x 45 Segundos",
+                    bio: "Simula o sprint de alta intensidade sob fadiga ácida.",
+                    steps: [
+                        "Posição de flexão, braços travados.",
+                        "Puxe os joelhos em direção ao peito alternadamente o mais rápido possível.",
+                        "Mantenha o quadril baixo (não deixe subir).",
+                        "Mantenha a respiração constante."
+                    ]
+                }
+            ],
+            WG: [
+                {
+                    name: "Skater Jumps (Saltos de Patinador)",
+                    sets: "5 x 12 Repetições",
+                    bio: "Poder de corte e drible lateral explosivo.",
+                    steps: [
+                        "Salte para o lado caindo em um pé só, joelho flexionado.",
+                        "A outra perna passa por trás para equilíbrio.",
+                        "Imediatamente salte para o outro lado o mais longe possível.",
+                        "Foco em distância e velocidade."
+                    ]
+                },
+                {
+                    name: "Elevação de Panturrilha Unilateral",
+                    sets: "4 x 20 Repetições",
+                    bio: "Fortalecimento do tornozelo para o primeiro passo de aceleração.",
+                    steps: [
+                        "Apoie em um degrau com apenas uma parte do pé.",
+                        "Suba o máximo possível na ponta do pé.",
+                        "Desça o calcanhar abaixo do nível do degrau para alongar.",
+                        "Movimento controlado e rítmico."
+                    ]
+                },
+                {
+                    name: "Prancha Abdominal 'Serrote'",
+                    sets: "3 x 45 Segundos",
+                    bio: "Anti-extensão de coluna para manter a postura durante o sprint máximo.",
+                    steps: [
+                        "Em prancha de cotovelos, empurre o corpo para frente e para trás.",
+                        "O movimento deve vir apenas dos tornozelos e ombros.",
+                        "Mantenha o abdômen contraído ao extremo.",
+                        "Não deixe a lombar selar."
+                    ]
+                }
+            ],
+            ST: [
+                {
+                    name: "Salto Vertical com Agachamento",
+                    sets: "5 x 6 Repetições",
+                    bio: "Potência de impulsão para cabeceios e ganhos de primeira bola.",
+                    steps: [
+                        "Agache até a metade do caminho para carregar as pernas.",
+                        "Exploda para cima tentando tocar o teto.",
+                        "Aterrisse silenciosamente como um gato.",
+                        "Resete por 2 segundos entre saltos para máxima qualidade."
+                    ]
+                },
+                {
+                    name: "Flexão de Braços com Explosão",
+                    sets: "4 x 10 Repetições",
+                    bio: "Força de tronco para proteção de bola contra defensores.",
+                    steps: [
+                        "Desça a flexão devagar em 3 segundos.",
+                        "Suba com tanta força que suas mãos quase saiam do chão.",
+                        "Mantenha o core rígido como uma tábua.",
+                        "Cotovelos em 45 graus em relação ao corpo."
+                    ]
+                },
+                {
+                    name: "Cossack Squat (Agachamento Lateral)",
+                    sets: "3 x 12 Repetições",
+                    bio: "Mobilidade e força em ângulos extremos para finalizações acrobáticas.",
+                    steps: [
+                        "Pés bem afastados, agache para um lado mantendo a outra perna esticada.",
+                        "O calcanhar da perna esticada pode girar para cima.",
+                        "Mantenha o tronco o mais vertical possível.",
+                        "Alterne os lados com controle."
+                    ]
+                }
+            ]
+        };
+
+        // --- UI LOGIC ---
+
+        // Loader disappearance
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('loader').style.opacity = '0';
+                setTimeout(() => document.getElementById('loader').style.display = 'none', 600);
+            }, 1000);
+        });
+
+        const slider = document.getElementById('fadigaSlider');
+        const label = document.getElementById('fadigaLabel');
+        const logContainer = document.getElementById('logContainer');
+
+        slider.oninput = function() {
+            label.innerHTML = this.value;
+            if(this.value > 7) label.style.background = 'var(--danger)';
+            else label.style.background = 'var(--slate-900)';
+        }
+
+        function addLog(text) {
+            const entry = document.createElement('div');
+            entry.className = 'log-entry';
+            entry.innerHTML = `<span style="font-size: 0.7rem; color: var(--slate-500); font-weight: 800;">[${new Date().toLocaleTimeString()}]</span><br>${text}`;
+            logContainer.prepend(entry);
+        }
+
+        // --- ENGINE LOGIC ---
+        document.getElementById('trainerForm').onsubmit = function(e) {
+            e.preventDefault();
+            const pos = document.getElementById('posicao').value;
+            const nivel = document.getElementById('nivel').value;
+            const fadiga = slider.value;
+
+            addLog(`Iniciando triagem para posição: ${pos}...`);
+            addLog(`Cruzando nível de fadiga ${fadiga}/10 com carga ${nivel}...`);
+
+            setTimeout(() => {
+                renderExercises(pos, fadiga);
+                addLog(`Sucesso! Protocolo otimizado pronto.`);
+                document.getElementById('trainingOutput').style.display = 'block';
+                window.scrollTo({ top: document.getElementById('trainingOutput').offsetTop - 100, behavior: 'smooth' });
+            }, 800);
+        };
+
+        function renderExercises(pos, fadiga) {
+            const container = document.getElementById('exerciseList');
+            container.innerHTML = "";
+            let list = EXERCISES[pos];
+
+            // AI Adjustment for high fatigue
+            if (fadiga >= 8) {
+                addLog(`Fadiga ALTA detectada. Ajustando para modo Recuperação.`);
+            }
+
+            list.forEach(ex => {
+                const setsFinal = fadiga >= 8 ? "2 x 10 (Leve)" : ex.sets;
+                
+                const card = document.createElement('div');
+                card.className = 'exercise-detail-card card-shadow';
+                card.innerHTML = `
+                    <div>
+                        <span class="badge-pos">${pos} Protocol</span>
+                        <h3 style="font-size: 1.6rem; margin: 15px 0 10px; letter-spacing: -1px;">${ex.name}</h3>
+                        <p style="color: var(--primary-dark); font-weight: 800; font-size: 1.1rem; margin-bottom: 20px;">${setsFinal}</p>
+                        
+                        <div style="background: var(--primary-light); padding: 15px; border-radius: 15px; font-size: 0.85rem;">
+                            <strong style="display: block; margin-bottom: 5px; color: var(--primary-dark);">POR QUÊ FAZER?</strong>
+                            ${ex.bio}
+                        </div>
+
+                        <div class="anatomy-mini">
+                            <svg width="60" height="120" viewBox="0 0 60 120">
+                                <rect x="25" y="10" width="10" height="10" rx="5" fill="var(--slate-100)" />
+                                <rect x="20" y="25" width="20" height="40" rx="10" fill="var(--primary)" />
+                                <rect x="15" y="70" width="10" height="40" rx="5" fill="var(--primary-dark)" />
+                                <rect x="35" y="70" width="10" height="40" rx="5" fill="var(--primary-dark)" />
+                            </svg>
+                            <span style="font-size: 0.6rem; font-weight: 800; color: var(--slate-500); margin-left: 10px;">FOCO: MUSCULATURA ALVO</span>
+                        </div>
+                    </div>
+
+                    <div class="instruction-box">
+                        <h4 style="margin-bottom: 20px; font-size: 0.9rem; text-transform: uppercase; color: var(--slate-500); letter-spacing: 1px;">Guia de Execução Técnica</h4>
+                        ${ex.steps.map((step, i) => `
+                            <div class="instruction-step">
+                                <div class="step-number">${i+1}</div>
+                                <p>${step}</p>
+                            </div>
+                        `).join('')}
+                        <div style="margin-top: 30px; border-top: 1px solid var(--slate-100); padding-top: 20px; font-style: italic; font-size: 0.8rem; color: var(--slate-500);">
+                            * Dica do Treinador: Mantenha a respiração cadenciada e o foco na qualidade do movimento, não na velocidade.
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,60 @@
+{
+  "name": "soccer-ia",
+  "version": "1.0.0",
+  "description": "Sistema Inteligente de Análise e Otimização de Futebol - Planos de Treino e Dieta Personalizados com IA",
+  "main": "SoccerIA.js",
+  "scripts": {
+    "start": "python -m http.server 8000",
+    "dev": "python -m http.server 8000",
+    "test": "node test.js",
+    "docs": "echo 'Documentação em README.md e DESENVOLVIMENTO.md'"
+  },
+  "keywords": [
+    "futebol",
+    "soccer",
+    "artificial-intelligence",
+    "machine-learning",
+    "deep-learning",
+    "neural-network",
+    "treino",
+    "training",
+    "dieta",
+    "nutrition",
+    "personalizado",
+    "personalized",
+    "IA",
+    "AI"
+  ],
+  "author": "GeladoGod12",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/GeladoGod12/SoccerIA"
+  },
+  "homepage": "https://github.com/GeladoGod12/SoccerIA#readme",
+  "files": [
+    "IA.js",
+    "PlayerProfile.js",
+    "TrainingGenerator.js",
+    "DietGenerator.js",
+    "SoccerIA.js",
+    "Exemplos.js",
+    "index.html",
+    "README.md",
+    "DESENVOLVIMENTO.md",
+    "package.json"
+  ],
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "devDependencies": {
+    "jest": "^27.0.0"
+  },
+  "browser": {
+    "IA.js": "./IA.js",
+    "PlayerProfile.js": "./PlayerProfile.js",
+    "TrainingGenerator.js": "./TrainingGenerator.js",
+    "DietGenerator.js": "./DietGenerator.js",
+    "SoccerIA.js": "./SoccerIA.js"
+  }
+}

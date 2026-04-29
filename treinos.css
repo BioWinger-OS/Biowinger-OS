@@ -1,0 +1,247 @@
+/* 
+    BIOWINGER - CLINICAL TRAINING UI SYSTEM v3.0
+    Arquitetura de Design para Prescrição Adaptativa e Reabilitação
+*/
+
+:root {
+    --primary-mint: #2ecc71;
+    --dark-mint: #27ae60;
+    --soft-mint: #e8f8f0;
+    --border-mint: rgba(46, 204, 113, 0.2);
+    --white-bg: #ffffff;
+    --snow-bg: #f4f7f6;
+    --text-deep: #1a202c;
+    --text-soft: #718096;
+    --danger-core: #e74c3c;
+    --shadow-neomorph-inset: inset 2px 2px 5px #d1d9e6, inset -2px -2px 5px #ffffff;
+    --shadow-premium: 0 20px 40px rgba(0,0,0,0.06);
+    --anim-curve: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+/* CONTAINER DE SELEÇÃO DE POSIÇÃO */
+.pos-picker.glass {
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid var(--border-mint);
+    border-radius: 30px;
+    padding: 50px;
+    box-shadow: var(--shadow-premium);
+    margin-bottom: 50px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.pos-picker h3 {
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: var(--dark-mint);
+    margin-bottom: 30px;
+    letter-spacing: -1px;
+}
+
+/* BOTÕES DE POSIÇÃO - INTERATIVIDADE PRO */
+.btn-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+}
+
+.btn-group button {
+    padding: 18px 30px;
+    border-radius: 18px;
+    border: 2px solid var(--soft-mint);
+    background: var(--white-bg);
+    color: var(--text-deep);
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.4s var(--anim-curve);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.02);
+}
+
+.btn-group button:hover {
+    background: var(--primary-mint);
+    color: white;
+    transform: translateY(-8px) scale(1.05);
+    box-shadow: 0 15px 30px rgba(46, 204, 113, 0.3);
+    border-color: var(--dark-mint);
+}
+
+/* CARDS DE TREINAMENTO (SISTEMA DE EXPANSÃO) */
+.training-container.animated-in {
+    animation: slideInFade 0.6s ease-out forwards;
+}
+
+.workout-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+}
+
+.workout-step-card {
+    background: var(--white-bg);
+    border-radius: 22px;
+    border: 1px solid #edf2f7;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+}
+
+.workout-step-card:hover {
+    border-color: var(--primary-mint);
+    box-shadow: 0 12px 25px rgba(46, 204, 113, 0.1);
+}
+
+/* CABEÇALHO DO CARD (FECHADO) */
+.step-main {
+    display: flex;
+    align-items: center;
+    padding: 25px 35px;
+    position: relative;
+}
+
+.step-time {
+    background: linear-gradient(135deg, var(--primary-mint), var(--dark-mint));
+    color: white;
+    width: 90px;
+    height: 90px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 1.1rem;
+    box-shadow: 0 8px 16px rgba(46, 204, 113, 0.2);
+    margin-right: 25px;
+}
+
+.step-info {
+    flex: 1;
+}
+
+.step-info h4 {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: var(--text-deep);
+    margin: 0;
+}
+
+.step-info small {
+    color: var(--primary-mint);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 0.75rem;
+}
+
+.expand-icon {
+    font-size: 1.2rem;
+    color: var(--text-soft);
+    transition: transform 0.4s ease;
+}
+
+/* CONTEÚDO EXPANDIDO (DETALHES DO TREINO) */
+.step-details {
+    padding: 0 35px 35px 150px; /* Alinhado após o box de tempo */
+    animation: expandContent 0.4s ease-out;
+}
+
+.ex-desc {
+    font-size: 1.05rem;
+    color: var(--text-soft);
+    margin-bottom: 20px;
+    border-left: 3px solid var(--soft-mint);
+    padding-left: 15px;
+}
+
+.passo-passo {
+    list-style: none;
+    margin-bottom: 25px;
+}
+
+.passo-passo li {
+    background: var(--snow-bg);
+    margin-bottom: 8px;
+    padding: 12px 20px;
+    border-radius: 12px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-deep);
+    position: relative;
+    border: 1px solid #eef2f6;
+}
+
+.passo-passo li::before {
+    content: "●";
+    color: var(--primary-mint);
+    margin-right: 12px;
+}
+
+/* NOTA CLÍNICA - DESTAQUE */
+.clinic-note {
+    background: var(--soft-mint);
+    color: var(--dark-mint);
+    padding: 18px 25px;
+    border-radius: 15px;
+    font-size: 0.9rem;
+    border: 1px dashed var(--dark-mint);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.clinic-note strong {
+    background: var(--dark-mint);
+    color: white;
+    padding: 2px 8px;
+    border-radius: 5px;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+}
+
+/* BANNER DE ALERTA DE DOR */
+.alert-banner.danger {
+    background: #fff5f5;
+    border: 1px solid #feb2b2;
+    color: var(--danger-core);
+    padding: 20px;
+    border-radius: 15px;
+    margin-bottom: 30px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    animation: shakeAlert 0.5s ease-in-out;
+}
+
+/* ANIMAÇÕES */
+@keyframes slideInFade {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes expandContent {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes shakeAlert {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
+/* RESPONSIVIDADE ADAPTATIVA */
+@media (max-width: 900px) {
+    .step-main { flex-direction: column; text-align: center; }
+    .step-time { margin: 0 0 20px 0; width: 100%; height: 60px; }
+    .step-details { padding: 20px; }
+    .btn-group button { width: 100%; }
+}
+
+/* CUSTOM SCROLLBAR PARA ÁREA DE TREINOS */
+#trainingDisplay::-webkit-scrollbar { width: 8px; }
+#trainingDisplay::-webkit-scrollbar-track { background: var(--snow-bg); border-radius: 10px; }
+#trainingDisplay::-webkit-scrollbar-thumb { background: var(--primary-mint); border-radius: 10px; }

@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BIOWINGER OS v4.0 | Professional Analytics System</title>
+    <link href="https://googleapis.com" rel="stylesheet">
+    <style>
+        /* 
+            BIOWINGER OS v4.0 - MASTER STYLE SHEET 
+        */
+        :root {
+            --primary: #2ecc71;
+            --primary-dark: #27ae60;
+            --primary-light: #d1f2eb;
+            --white: #ffffff;
+            --snow: #f8fafc;
+            --slate-50: #f1f5f9;
+            --slate-100: #e2e8f0;
+            --slate-500: #64748b;
+            --slate-800: #1e293b;
+            --slate-900: #0f172a;
+            --danger: #ff4757;
+            --radius-lg: 24px;
+            --radius-md: 16px;
+            --nav-height: 80px;
+            --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: var(--snow); color: var(--slate-800); line-height: 1.6; }
+
+        /* NAVEGAÇÃO */
+        .main-nav { height: var(--nav-height); background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(10px); border-bottom: 1px solid var(--slate-100); position: fixed; top: 0; width: 100%; z-index: 1000; display: flex; align-items: center; }
+        .nav-container { width: 100%; max-width: 1300px; margin: 0 auto; padding: 0 25px; display: flex; justify-content: space-between; align-items: center; }
+        .brand-text .title { font-weight: 800; font-size: 1.1rem; color: var(--slate-900); }
+        .version-badge { font-size: 0.65rem; background: var(--primary-light); color: var(--primary-dark); padding: 2px 8px; border-radius: 6px; margin-left: 5px; }
+
+        /* ESTILO DO QUESTIONÁRIO (CENTRALIZADO) */
+        .quiz-section { padding: 140px 0 80px; }
+        .container { max-width: 900px; margin: 0 auto; padding: 0 25px; }
+        .glass { background: var(--white); border-radius: var(--radius-lg); border: 1px solid var(--slate-100); box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05); padding: 40px; transition: var(--transition); }
+        
+        .progress-wrapper { margin-bottom: 40px; }
+        .progress-bar { height: 8px; background: var(--slate-100); border-radius: 10px; overflow: hidden; }
+        .progress-fill { height: 100%; background: var(--primary); width: 0%; transition: width 0.5s ease; }
+
+        .question-card { display: none; }
+        .question-card.active { display: block; animation: slideUp 0.5s ease; }
+        .opt-btn { width: 100%; padding: 20px; margin-bottom: 12px; border: 2px solid var(--slate-50); background: var(--snow); border-radius: 12px; cursor: pointer; font-size: 1rem; font-weight: 600; text-align: left; transition: var(--transition); }
+        .opt-btn:hover { border-color: var(--primary); background: var(--primary-light); transform: translateX(5px); }
+
+        /* ESTILO DA ANÁLISE (EDGE-TO-EDGE) */
+        #results { display: none; width: 100%; background: var(--white); padding-top: 80px; }
+        .edge-container { width: 100%; }
+
+        .analysis-header { 
+            width: 100%; 
+            padding: 100px 10%; 
+            background: linear-gradient(180deg, var(--primary-light) 0%, var(--white) 100%); 
+            text-align: center;
+            border-bottom: 1px solid var(--slate-100);
+        }
+
+        .score-display { font-size: 6rem; font-weight: 800; color: var(--slate-900); line-height: 1; margin-bottom: 10px; }
+        .score-label { font-weight: 800; color: var(--primary-dark); letter-spacing: 2px; text-transform: uppercase; font-size: 0.8rem; }
+
+        .analysis-grid { width: 100%; display: flex; flex-direction: column; }
+        .feedback-row { 
+            width: 100%; 
+            padding: 40px 10%; 
+            border-bottom: 1px solid var(--slate-50); 
+            display: grid; 
+            grid-template-columns: 200px 1fr; 
+            gap: 40px; 
+            align-items: center; 
+        }
+        .feedback-row:nth-child(even) { background: var(--snow); }
+        .feedback-row.critical { border-left: 10px solid var(--danger); background: #fffafa; }
+        .cat-tag { font-weight: 800; font-size: 0.75rem; color: var(--slate-500); text-transform: uppercase; letter-spacing: 1px; }
+        .feedback-text { color: var(--slate-800); font-size: 1rem; line-height: 1.6; }
+
+        /* SUMÁRIO ESTRATÉGICO FULL-WIDTH */
+        #overall-summary { 
+            width: 100%; 
+            padding: 120px 10%; 
+            background: var(--slate-900); 
+            color: var(--white); 
+        }
+        .summary-wrapper { max-width: 1400px; margin: 0 auto; }
+        .summary-wrapper h2 { color: var(--primary); font-size: 1.5rem; margin-bottom: 40px; text-transform: uppercase; letter-spacing: 2px; }
+        .summary-wrapper p { font-size: 1.15rem; line-height: 2.2; color: var(--slate-100); text-align: justify; }
+        .summary-wrapper strong { color: var(--primary); font-weight: 800; border-bottom: 1px solid var(--primary); }
+
+        .results-footer { width: 100%; padding: 60px 10%; background: var(--slate-900); text-align: center; }
+        .restart-btn { padding: 25px 60px; background: var(--primary); color: white; border: none; border-radius: 50px; font-weight: 800; cursor: pointer; transition: var(--transition); letter-spacing: 1px; }
+        .restart-btn:hover { background: var(--primary-dark); transform: scale(1.05); }
+
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+
+    <nav class="main-nav">
+        <div class="nav-container">
+            <div class="brand">
+                <span class="brand-text"><span class="title">BIOWINGER <span class="version-badge">OS v4.0</span></span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- QUESTIONÁRIO (ESTILO CENTRALIZADO) -->
+    <section id="quiz-section" class="quiz-section">
+        <div class="container">
+            <div class="glass">
+                <div class="progress-wrapper">
+                    <div style="display:flex; justify-content:space-between; margin-bottom:10px; font-size:0.8rem; font-weight:700;">
+                        <span id="category-name" style="color:var(--primary);">INICIANDO PROTOCOLO...</span>
+                        <span id="step-count">1/15</span>
+                    </div>
+                    <div class="progress-bar"><div id="fill" class="progress-fill"></div></div>
+                </div>
+                <div id="questions-container"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ANÁLISE (ESTILO EDGE-TO-EDGE) -->
+    <section id="results">
+        <div class="edge-container">
+            <div class="analysis-header">
+                <div class="score-label">Global Athlete Readiness</div>
+                <div class="score-display" id="final-pct">0%</div>
+                <p id="status-label" style="font-weight:700; color:var(--slate-500);"></p>
+            </div>
+
+            <div id="detailed-feedback" class="analysis-grid">
+                <!-- Inserido via JS -->
+            </div>
+
+            <div id="overall-summary">
+                <div class="summary-wrapper">
+                    <h2>Diretrizes de Performance Integrada</h2>
+                    <div id="summary-text"></div>
+                </div>
+            </div>
+
+            <div class="results-footer">
+                <button class="restart-btn" onclick="location.reload()">REINICIAR DIAGNÓSTICO</button>
+            </div>
+        </div>
+    </section>
+    <div class="nav-back">
+        <a href="main.html" class="btn-nav">← Voltar ao Laboratório</a>
+    </div>
+<script>
+const quizData = [
+    { cat: "TÉCNICA", w: 2.0, q: "Dominância e precisão com a perna não preferencial (Pé Ruim):", opt: [
+        { t: "Elite: Ambidestria funcional em passes e finalizações de média distância.", p: 5, f: "Nível Pro. Sua capacidade de ignorar o lado dominante anula estratégias de marcação adversária." },
+        { t: "Competitivo: Uso o pé ruim para apoios curtos e condução simples.", p: 3, f: "Bom. Entretanto, o refino da batida de longa distância com a canhota é o seu próximo passo." },
+        { t: "Em Treino: Tenho muita dificuldade, mas tento usar em situações de treino.", p: 1, f: "Risco de previsibilidade. O marcador de elite sempre te forçará para o lado de fora." },
+        { t: "Deficiente: Evito 100% o uso do pé ruim, sacrificando o ângulo da jogada.", p: 0, f: "INTERVENÇÃO IMEDIATA: Dedique os primeiros 30 minutos de cada sessão exclusivamente à perna não dominante ou seu teto técnico será limitado ao amadorismo." }
+    ]},
+    { cat: "FISIOLOGIA", w: 1.6, q: "Gestão do Ciclo Circadiano e Higiene do Sono:", opt: [
+        { t: "Pro: 9h de sono, sem telas 60min antes, quarto a 18°C e blackout total.", p: 5, f: "Otimização Hormonal. Seu pico de GH e testosterona garantem regeneração tecidual máxima." },
+        { t: "Atleta: 8h de sono constante, mas uso filtro de luz azul no celular.", p: 3, f: "Boa base. Remova o celular do quarto para aumentar a profundidade do sono REM." },
+        { t: "Amador: Durmo entre 6h e 7h e acordo cansado na maioria dos dias.", p: 1, f: "Déficit Crônico. Sua coordenação motora fina é prejudicada pela falta de recuperação neural." },
+        { t: "Crítico: Durmo menos de 6h, uso telas na cama e não tenho horário fixo.", p: 0, f: "ALERTA FISIOLÓGICO: Você está treinando e não evoluindo. O sono é onde o músculo reconstrói. Sem ele, o risco de lesão muscular aumenta em 400%." }
+    ]},
+    { cat: "COGNITIVO", w: 1.8, q: "Frequência de 'Scanning' (mapeamento de campo) antes da recepção:", opt: [
+        { t: "Elite: Giro o pescoço 3 a 5 vezes a cada 10 segundos, mapeando o espaço.", p: 5, f: "Visão de jogo Superior. Você decide a jogada antes mesmo da bola tocar seu pé." },
+        { t: "Ativo: Olho o campo uma vez antes de receber o passe.", p: 3, f: "Bom. Tente aumentar a frequência de varredura quando a bola estiver longe de você." },
+        { t: "Passivo: Olho apenas para a bola durante a condução e recepção.", p: 1, f: "Lentidão Cognitiva. Você será antecipado por defesas que fecham linhas de passe rapidamente." },
+        { t: "Cego: Jogo de cabeça baixa, focado apenas no próprio pé.", p: 0, f: "ERRO TÁTICO GRAVE: O futebol de alto nível acontece no espaço vazio. Comece a forçar o giro de pescoço em todos os treinos de posse." }
+    ]},
+    { cat: "NUTRIÇÃO", w: 1.4, q: "Protocolo de Hidratação e Equilíbrio de Eletrólitos:", opt: [
+        { t: "Elite: Ingestão monitorada de 35ml/kg + reposição salina pós-treino.", p: 5, f: "Viscosidade sanguínea ideal. Isso mantém a oxigenação muscular estável no final dos jogos." },
+        { t: "Consciente: Bebo muita água, mas não controlo eletrólitos.", p: 3, f: "Bom volume. Adicione sais minerais em dias de alta temperatura para evitar cãibras." },
+        { t: "Básico: Bebo água apenas quando sinto sede.", p: 1, f: "Desidratação latente. A sede é um sinal tardio que indica perda de 2% da massa corporal em água." },
+        { t: "Pobre: Substituo água por sucos ou refrigerantes regularmente.", p: 0, f: "TOXICIDADE ALIMENTAR: O açúcar inflama suas articulações e reduz a velocidade de reação sináptica. Água pura é o seu melhor suplemento." }
+    ]},
+    { cat: "MENTAL", w: 2.0, q: "Resiliência Psicológica após Erro Crucial em Jogo:", opt: [
+        { t: "Inabalável: Erro é dado técnico. Foco imediato na 'Próxima Jogada'.", p: 5, f: "Mentalidade de Elite. Sua estabilidade emocional transmite confiança para o grupo." },
+        { t: "Resiliente: Fico chateado, mas recupero a intensidade em 2 minutos.", p: 3, f: "Boa maturidade. Trabalhe gatilhos mentais para reduzir esse tempo de luto para zero." },
+        { t: "Vulnerável: Um erro abala minha confiança para o restante da partida.", p: 1, f: "Fragilidade Mental. Você joga para não errar em vez de jogar para vencer." },
+        { t: "Colapso: Culpo fatores externos (juiz/campo) e perco a cabeça emocionalmente.", p: 0, f: "ALERTA DE CONDUTA: O profissionalismo exige autogestão. O erro do companheiro ou do juiz não justifica sua queda de rendimento." }
+    ]},
+    { cat: "FÍSICO", w: 1.7, q: "Qualidade da Ativação Neuromuscular e Core:", opt: [
+        { t: "Pro: Faço rotina de estabilidade de core e glúteos 20min pré-treino.", p: 5, f: "Blindagem Articular. Sua base sólida permite mudanças de direção explosivas sem risco." },
+        { t: "Regular: Faço o aquecimento padrão sugerido pelo clube.", p: 3, f: "Padrão. Para o próximo nível, você precisa de um protocolo individual de mobilidade." },
+        { t: "Inconsistente: Só faço fortalecimento quando sinto alguma dor.", p: 1, f: "Gestão Reativa. Você está tratando o sintoma em vez de prevenir a causa." },
+        { t: "Nulo: Entro direto no coletivo 'frio' sem qualquer ativação específica.", p: 0, f: "RISCO DE LESÃO: Entrar em alta intensidade sem acordar o sistema nervoso é o caminho mais rápido para o estiramento de posterior." }
+    ]},
+    { cat: "TÁTICA", w: 1.9, q: "Comportamento na Transição Defensiva (Perda da Bola):", opt: [
+        { t: "Inteligente: Pressão imediata no portador ou fechamento de linha em 2s.", p: 5, f: "Leitura Tática Moderna. Você entende que o jogo se ganha na recuperação rápida." },
+        { t: "Esforçado: Volto correndo para minha posição original de marcação.", p: 3, f: "Útil. Mas tente ser mais agressivo na 'pressão pós-perda' antes do adversário pensar." },
+        { t: "Lento: Demoro a reagir e recomponho trotando.", p: 1, f: "Passividade perigosa. Você sobrecarrega seus volantes e zagueiros por falta de entrega." },
+        { t: "Desconectado: Fico parado reclamando do lance enquanto o adversário ataca.", p: 0, f: "INCOMPATÍVEL COM PRO: No alto nível, não há espaço para quem não trabalha sem bola. Mude sua postura defensiva ou será substituído." }
+    ]},
+    { cat: "TÉCNICA", w: 1.8, q: "Primeiro Toque e Domínio Orientado (First Touch):", opt: [
+        { t: "Elite: A bola já sai do domínio eliminando o marcador próximo.", p: 5, f: "Refino técnico. O domínio orientado é o que te dá 'tempo' no futebol moderno." },
+        { t: "Seguro: Domino a bola perto do pé, mas perco o tempo do drible.", p: 3, f: "Bom controle. Pratique tirar a bola da zona de pressão no primeiro toque." },
+        { t: "Defeituoso: A bola costuma escapar 1 metro no domínio sob pressão.", p: 1, f: "Falta de sensibilidade. O domínio ruim atrai o bote do adversário." },
+        { t: "Pobre: Tenho dificuldade técnica de dominar bolas fortes ou altas.", p: 0, f: "BASE COMPROMETIDA: Repetição de parede (100 toques/dia) é obrigatória para ganhar confiança no controle." }
+    ]},
+    { cat: "CARREIRA", w: 1.1, q: "Gravação e Análise de Desempenho Individual (Vídeo):", opt: [
+        { t: "Pro: Tenho highlights atualizados e analiso meus erros em vídeo.", p: 5, f: "Visão Profissional. A análise de vídeo acelera sua evolução em 3x." },
+        { t: "Intermediário: Alguém grava meus jogos, mas não edito nem assisto.", p: 3, f: "Material desperdiçado. Assista seus erros para não repeti-los no próximo jogo." },
+        { t: "Básico: Só posto lances de gols ou dribles no Instagram.", p: 1, f: "Marketing sem substância. Olheiros buscam comportamento tático, não apenas gols." },
+        { t: "Nulo: Não tenho registro de imagem das minhas atuações.", p: 0, f: "FANTASMA NO MERCADO: Quem não é visto não é lembrado. Comece a documentar sua jornada hoje." }
+    ]},
+    { cat: "FISIOLOGIA", w: 1.5, q: "Uso de substâncias inibidoras (Álcool/Vape):", opt: [
+        { t: "Zero: Abstenção total para preservar o rendimento atlético.", p: 5, f: "Foco de Elite. Seu corpo é um templo de performance e você o respeita." },
+        { t: "Raro: Consumo social em períodos de férias ou folga longa.", p: 3, f: "Mínimo impacto, mas mantenha a disciplina nos períodos competitivos." },
+        { t: "Frequente: Consumo nos fins de semana após os jogos.", p: 1, f: "Sabotagem. O álcool destrói a síntese proteica que você buscou no treino." },
+        { t: "Dependente: Uso regular de vape ou fumo.", p: 0, f: "INCOMPATÍVEL COM ATLETA: Você está destruindo sua capacidade pulmonar e VO2 Max. Escolha entre o vício e o sonho." }
+    ]},
+    { cat: "COGNITIVO", w: 1.7, q: "Capacidade de Antecipação de Jogada (Leitura):", opt: [
+        { t: "Mestre: Leio o corpo do passador e antecipo 90% das jogadas.", p: 5, f: "Inteligência Preditiva. Você economiza energia física correndo menos e melhor." },
+        { t: "Bom: Intercepto passes óbvios e mal executados.", p: 3, f: "Boa leitura. Estude mais o posicionamento dos adversários sem a bola." },
+        { t: "Reativo: Só me movimento depois que a bola já saiu do pé do passador.", p: 1, f: "Sempre atrasado. No Pro, a bola viaja mais rápido que seu pensamento." },
+        { t: "Cego: Sou pego de surpresa constantemente por lançamentos longos.", p: 0, f: "TREINO TÁTICO: Assista jogos de cima (plano aberto) para entender os padrões de movimento adversários." }
+    ]},
+    { cat: "TÉCNICA", w: 2.0, q: "Finalização e Aproveitamento em Frente ao Gol:", opt: [
+        { t: "Letal: Aproveitamento superior a 70% das chances claras.", p: 5, f: "Instinto Assassino. Jogadores decidem jogos e você é um deles." },
+        { t: "Eficiente: Acerto o gol na maioria das vezes, mas falta potência.", p: 3, f: "Bom. Trabalhe a alavanca de chute e a escolha do canto para matar o goleiro." },
+        { t: "Impreciso: Chuto muito para fora ou em cima do goleiro.", p: 1, f: "Ansiedade na finalização. Falta frieza e técnica de batida na 'bochecha' da rede." },
+        { t: "Nulo: Evito finalizar e prefiro passar a responsabilidade.", p: 0, f: "MEDO DO GOL: Sem tentativa não há sucesso. Treine finalização exaustivamente após o treino." }
+    ]},
+    { cat: "FÍSICO", w: 1.8, q: "Aceleração nos primeiros 5 a 10 metros (Explosão):", opt: [
+        { t: "Relâmpago: Venci quase todos os duelos de velocidade curta.", p: 5, f: "Fibras Rápidas. Sua potência de arranque é seu maior trunfo em campo." },
+        { t: "Rápido: Sou veloz, mas preciso de 15 metros para embalar.", p: 3, f: "Boa velocidade final. Trabalhe força reativa (pliometria) para melhorar a saída." },
+        { t: "Pesado: Demoro a tirar o corpo do lugar no primeiro passo.", p: 1, f: "Lentidão de arranque. Sua mecânica de corrida precisa de ajuste urgente." },
+        { t: "Lento: Perco na corrida para defensores mais lentos.", p: 0, f: "DÉFICIT DE POTÊNCIA: Inicie treinos de força explosiva na academia. Velocidade é a moeda do futebol." }
+    ]},
+    { cat: "DISCIPLINA", w: 1.3, q: "Pontualidade e Organização Pré-Jogo/Treino:", opt: [
+        { t: "Elite: Chego 40min antes, preparo material e faço mentalização.", p: 5, f: "Profissionalismo exemplar. O sucesso começa antes do apito inicial." },
+        { t: "Pontual: Chego no horário exato de início das atividades.", p: 3, f: "Padrão. Tente chegar antes para preparar seu corpo individualmente." },
+        { t: "Relapso: Costumo chegar em cima da hora, trocando de roupa correndo.", p: 1, f: "Desorganização. Isso gera um estado de alerta mental negativo antes do treino." },
+        { t: "Indisciplinado: Atraso frequentemente e não sigo os horários do grupo.", p: 0, f: "MUDANÇA DE CONDUTA: O técnico e o clube não confiam em atletas sem compromisso cronológico." }
+    ]},
+    { cat: "COGNITIVO", w: 1.5, q: "Comunicação e Liderança Vocal em Campo:", opt: [
+        { t: "Líder: Oriento companheiros e mantenho o time organizado vocalmente.", p: 5, f: "Voz de Comando. Jogadores que falam valem por dois no sistema defensivo." },
+        { t: "Comunicativo: Falo o básico ('ladrão', 'vem', 'passa').", p: 3, f: "Bom. Tente orientar o posicionamento dos seus colegas também." },
+        { t: "Silencioso: Jogo mudo, focado apenas no meu rendimento.", p: 1, f: "Jogador Passivo. Sua falta de voz dificulta a vida do seu companheiro de lado." },
+        { t: "Mudo: Tenho timidez ou desinteresse em falar durante o jogo.", p: 0, f: "FALHA COLETIVA: Futebol é comunicação constante. Perca o medo de gritar instruções." }
+    ]}
+];
+
+let current = 0;
+let answers = [];
+
+function initQuiz() {
+    const container = document.getElementById('questions-container');
+    quizData.forEach((data, index) => {
+        const div = document.createElement('div');
+        div.className = `question-card ${index === 0 ? 'active' : ''}`;
+        div.innerHTML = `
+            <h2 style="font-size:1.8rem; margin-bottom:30px;">${data.q}</h2>
+            ${data.opt.map((o, i) => `
+                <button class="opt-btn" onclick="handleStep(${index}, ${i})">${o.t}</button>
+            `).join('')}
+        `;
+        container.appendChild(div);
+    });
+}
+
+function handleStep(qIdx, oIdx) {
+    answers.push({ q: qIdx, o: oIdx });
+    const cards = document.querySelectorAll('.question-card');
+    cards[current].classList.remove('active');
+    current++;
+
+    if(current < quizData.length) {
+        cards[current].classList.add('active');
+        const pct = (current / quizData.length) * 100;
+        document.getElementById('fill').style.width = pct + '%';
+        document.getElementById('step-count').innerText = `${current + 1}/15`;
+        document.getElementById('category-name').innerText = `CATEGORIA: ${quizData[current].cat}`;
+    } else {
+        renderResults();
+    }
+}
+
+function renderResults() {
+    document.getElementById('quiz-section').style.display = 'none';
+    document.getElementById('results').style.display = 'block';
+
+    let total = 0, max = 0, criticals = 0;
+    const catScores = {};
+    const feedbackList = document.getElementById('detailed-feedback');
+
+    answers.forEach(ans => {
+        const q = quizData[ans.q];
+        const opt = q.opt[ans.o];
+        total += opt.p * q.w;
+        max += 5 * q.w;
+        catScores[q.cat] = (catScores[q.cat] || 0) + opt.p;
+        if(ans.o === 3) criticals++;
+
+        const row = document.createElement('div');
+        row.className = `feedback-row ${ans.o === 3 ? 'critical' : ''}`;
+        row.innerHTML = `
+            <div class="cat-tag">${q.cat}</div>
+            <div class="feedback-text">
+                <strong style="display:block; margin-bottom:5px;">${ans.o === 3 ? '🚨 ALERTA DE PERFORMANCE' : '✅ DIAGNÓSTICO'}</strong>
+                ${opt.f}
+            </div>
+        `;
+        feedbackList.appendChild(row);
+    });
+
+    const pct = Math.round((total / max) * 100);
+    document.getElementById('final-pct').innerText = pct + '%';
+    document.getElementById('status-label').innerText = pct > 80 ? "PROSPECTO DE ELITE" : pct > 50 ? "POTENCIAL EM DESENVOLVIMENTO" : "REESTRUTURAÇÃO OBRIGATÓRIA";
+
+    const worstCat = Object.keys(catScores).reduce((a, b) => catScores[a] < catScores[b] ? a : b);
+    
+    const summary = `
+        Para elevar seu desempenho ao patamar profissional de elite, você deve atacar imediatamente as <strong>${criticals} anomalias críticas</strong> detectadas neste protocolo, com foco absoluto na categoria <strong>${worstCat}</strong>, que atualmente atua como o principal gargalo da sua evolução técnica e física. 
+        Sua transição para o sucesso depende da adoção de um modelo de recuperação de alta performance, eliminando 100% da exposição à luz azul e substâncias inflamatórias no período noturno para garantir o pico de testosterona e regeneração muscular sináptica. 
+        É imperativo estabelecer uma rotina de 20 minutos de ativação neuromuscular e core pré-treino, blindando suas articulações contra lesões e permitindo mudanças de direção mais agressivas. 
+        No campo tático e cognitivo, a automação do hábito de 'Scanning' periférico a cada 2 segundos deve se tornar sua prioridade, garantindo que sua tomada de decisão ocorra milissegundos antes do domínio da posse de bola. 
+        Mantenha sua engenharia metabólica estável através de um plano nutricional hiper-hidratante e rico em eletrólitos, prevenindo a queda de rendimento nos 15 minutos finais de partida. 
+        Lembre-se: o talento abre portas para testes, mas apenas a disciplina invisível nos detalhes fisiológicos e a resiliência mental do BIOWINGER System garantem a longevidade e a assinatura de um contrato profissional de alto nível. 
+        A partir de amanhã, sua rotina deve refletir o atleta que você deseja se tornar, não o que você é hoje.
+    `;
+    document.getElementById('summary-text').innerHTML = summary;
+}
+
+initQuiz();
+</script>
+</body>
+</html>

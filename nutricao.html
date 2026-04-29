@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nutrição de Elite | BioWinger Professional</title>
+    
+    <!-- Google Fonts e Reset Profissional -->
+    <link href="https://googleapis.com" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    
+    <style>
+        :root {
+            --nutri-mint: #2ecc71;
+            --nutri-dark: #1e8449;
+            --nutri-light: #e9f7ef;
+            --gold: #f1c40f;
+            --glass-bg: rgba(255, 255, 255, 0.9);
+            --transition-pro: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        body {
+            background-color: #f0f4f3;
+            background-image: radial-gradient(at 0% 0%, hsla(145,72%,91%,1) 0, transparent 50%), 
+                              radial-gradient(at 50% 0%, hsla(152,72%,91%,1) 0, transparent 50%);
+            min-height: 100vh;
+        }
+
+        /* HEADER & HERO */
+        .nutri-header {
+            padding: 120px 5% 60px;
+            text-align: center;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .nutri-header h1 {
+            font-size: 4.5rem;
+            line-height: 1;
+            letter-spacing: -3px;
+            margin-bottom: 25px;
+            color: var(--slate-900);
+        }
+
+        .highlight-gold { color: var(--gold); }
+
+        /* DASHBOARD DE PERIODIZAÇÃO */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .glass-panel {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 35px;
+            padding: 45px;
+            border: 1px solid rgba(255,255,255,0.5);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.05);
+        }
+
+        /* CARD DE NUTRIENTES ESPECÍFICOS */
+        .nutrient-track {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .nutrient-item {
+            background: var(--white);
+            padding: 20px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            transition: var(--transition-pro);
+            border: 1px solid transparent;
+        }
+
+        .nutrient-item:hover {
+            transform: scale(1.03);
+            border-color: var(--nutri-mint);
+            box-shadow: 0 10px 30px rgba(46, 204, 113, 0.1);
+        }
+
+        .nutrient-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--nutri-light);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        /* TABELA DE CARGA DE CARBOIDRATOS */
+        .carb-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 10px;
+            margin-top: 20px;
+        }
+
+        .carb-table th {
+            text-align: left;
+            padding: 15px;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+
+        .carb-table td {
+            background: var(--white-soft);
+            padding: 20px;
+            font-weight: 600;
+        }
+
+        .carb-table tr td:first-child { border-radius: 15px 0 0 15px; }
+        .carb-table tr td:last-child { border-radius: 0 15px 15px 0; color: var(--nutri-mint); }
+
+        /* SEÇÃO OSTEOCONDRITE & REPARAÇÃO */
+        .rehab-nutrition {
+            background: var(--slate-900);
+            color: white;
+            border-radius: 40px;
+            padding: 60px;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 80px;
+        }
+
+        .rehab-nutrition::after {
+            content: "RECOVERY";
+            position: absolute;
+            right: -20px;
+            bottom: -20px;
+            font-size: 10rem;
+            font-weight: 900;
+            color: rgba(255,255,255,0.03);
+            pointer-events: none;
+        }
+
+        /* CALCULADORA DE HIDRATAÇÃO SVS (SWEAT VOLUME SYSTEM) */
+        .calc-box {
+            background: rgba(255,255,255,0.1);
+            padding: 30px;
+            border-radius: 25px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .calc-input {
+            width: 100%;
+            padding: 15px;
+            border-radius: 12px;
+            border: none;
+            background: rgba(255,255,255,0.9);
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        /* FOOTER & NAV */
+        .nav-back {
+            position: fixed;
+            top: 30px;
+            left: 5%;
+            z-index: 1000;
+        }
+
+        .btn-nav {
+            background: var(--white);
+            padding: 12px 25px;
+            border-radius: 50px;
+            text-decoration: none;
+            color: var(--slate-900);
+            font-weight: 800;
+            box-shadow: var(--shadow-md);
+            transition: var(--transition-pro);
+        }
+
+        .btn-nav:hover { background: var(--nutri-mint); color: white; }
+
+        @media (max-width: 992px) {
+            .dashboard-grid { grid-template-columns: 1fr; }
+            .nutri-header h1 { font-size: 3rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="nav-back">
+        <a href="main.html" class="btn-nav">← Voltar ao Laboratório</a>
+    </div>
+
+    <header class="nutri-header">
+        <span class="badge-clinical" style="background: var(--nutri-light); color: var(--nutri-dark);">Nutrigenômica Esportiva</span>
+        <h1>Combustível para <span class="text-gradient">Treinos e Jogos</span></h1>
+        <p>Protocolos dietéticos avançados para maximizar a regeneração de tecidos e manter o glicogênio estável em atletas de alta demanda.</p>
+    </header>
+
+    <main class="container">
+        
+        <div class="dashboard-grid">
+            <!-- PAINEL DE DIETA DIÁRIA -->
+            <section class="glass-panel">
+                <h3 style="margin-bottom: 30px; font-size: 1.8rem;">Estrutura Alimentar (Dia de Jogo/Treino)</h3>
+                <table class="carb-table">
+                    <thead>
+                        <tr>
+                            <th>Refeição</th>
+                            <th>Foco Nutricional</th>
+                            <th>Meta (g/kg)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Desjejum Pró-Glicogênio</td>
+                            <td>Carboidratos Complexos + Polifenóis</td>
+                            <td>1.2g/kg</td>
+                        </tr>
+                        <tr>
+                            <td>Almoço Pré-Performance</td>
+                            <td>Proteína Magra + Amidos Cozidos</td>
+                            <td>2.0g/kg</td>
+                        </tr>
+                        <tr>
+                            <td>Lanche Intra-Esforço</td>
+                            <td>Glicose/Frutose 2:1 (Géis/Frutas)</td>
+                            <td>60g/hora</td>
+                        </tr>
+                        <tr>
+                            <td>Jantar de Ressíntese</td>
+                            <td>Proteína de Alta Biodisponibilidade</td>
+                            <td>0.5g/kg</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- PAINEL DE SUPLEMENTOS DE ELITE -->
+            <section class="glass-panel nutrient-track">
+                <h3 style="margin-bottom: 10px;">Suplementação Pro</h3>
+                <div class="nutrient-item">
+                    <div class="nutrient-icon">⚡</div>
+                    <div>
+                        <strong>Creatina Monohidratada</strong>
+                        <p style="font-size: 0.75rem; color: var(--text-muted);">Aumenta o torque em sprints curtos.</p>
+                    </div>
+                </div>
+                <div class="nutrient-item">
+                    <div class="nutrient-icon">☕</div>
+                    <div>
+                        <strong>Cafeína Anidra</strong>
+                        <p style="font-size: 0.75rem; color: var(--text-muted);">Reduz a percepção de esforço no 2º tempo.</p>
+                    </div>
+                </div>
+                <div class="nutrient-item">
+                    <div class="nutrient-icon">🌈</div>
+                    <div>
+                        <strong>Beta-Alanina</strong>
+                        <p style="font-size: 0.75rem; color: var(--text-muted);">Tamponamento de lactato em alas.</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- PROTOCOLO CLÍNICO: OSTEOCONDRITE -->
+        <section class="rehab-nutrition">
+            <div style="display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 50px; align-items: center;">
+                <div>
+                    <h2 style="font-size: 2.5rem; margin-bottom: 25px;"><span class="highlight-gold">Bio-Reparação</span> de Cartilagem</h2>
+                    <p style="margin-bottom: 30px; line-height: 1.8; color: #e2e8f0;">Para atletas com **Osteocondrite Dissecante**, a nutrição atua como suporte estrutural. O objetivo é fornecer substratos para a matriz extracelular da cartilagem e reduzir citocinas inflamatórias.</p>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                        <div style="background: rgba(255,255,255,0.05); padding: 20px; border-radius: 20px;">
+                            <h4 style="color: var(--nutri-mint);">Suporte Estrutural</h4>
+                            <p style="font-size: 0.85rem;">Colágeno Hidrolisado + Vitamina C + Cobre para síntese de colágeno endógeno.</p>
+                        </div>
+                        <div style="background: rgba(255,255,255,0.05); padding: 20px; border-radius: 20px;">
+                            <h4 style="color: var(--nutri-mint);">Anti-inflamação</h4>
+                            <p style="font-size: 0.85rem;">Cúrcuma (Curcumina) + Ômega 3 para controle da dor sem inibir cicatrização.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="calc-box">
+                    <h4 style="margin-bottom: 20px; text-align: center;">Calculadora SVS (Suor)</h4>
+                    <p style="font-size: 0.8rem; margin-bottom: 15px; text-align: center;">Calcule a perda hídrica pós-treino:</p>
+                    <input type="number" id="pesoPre" class="calc-input" placeholder="Peso Antes (kg)">
+                    <input type="number" id="pesoPos" class="calc-input" placeholder="Peso Depois (kg)">
+                    <button onclick="calcHidratacao()" class="btn-full" style="background: var(--nutri-mint);">Calcular Reposição</button>
+                    <div id="resHidro" style="margin-top: 15px; text-align: center; font-weight: 800; color: var(--gold);"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SEÇÃO DE MICRONUTRIENTES -->
+        <section class="glass-panel" style="margin-bottom: 100px;">
+            <h3 style="text-align: center; margin-bottom: 40px;">Micronutrientes Críticos para Laterais</h3>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
+                <div style="text-align: center; padding: 20px; background: var(--snow); border-radius: 20px;">
+                    <div style="font-size: 2rem;">🌞</div>
+                    <strong>Vitamina D3</strong>
+                    <p style="font-size: 0.75rem;">Saúde óssea e função muscular explosiva.</p>
+                </div>
+                <div style="text-align: center; padding: 20px; background: var(--snow); border-radius: 20px;">
+                    <div style="font-size: 2rem;">🥬</div>
+                    <strong>Magnésio</strong>
+                    <p style="font-size: 0.75rem;">Prevenção de cãibras e síntese proteica.</p>
+                </div>
+                <div style="text-align: center; padding: 20px; background: var(--snow); border-radius: 20px;">
+                    <div style="font-size: 2rem;">🥩</div>
+                    <strong>Zinco</strong>
+                    <p style="font-size: 0.75rem;">Recuperação tecidual e sistema imune.</p>
+                </div>
+                <div style="text-align: center; padding: 20px; background: var(--snow); border-radius: 20px;">
+                    <div style="font-size: 2rem;">🥛</div>
+                    <strong>Cálcio</strong>
+                    <p style="font-size: 0.75rem;">Dureza óssea (essencial em doenças de cartilagem).</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        function calcHidratacao() {
+            const pre = document.getElementById('pesoPre').value;
+            const pos = document.getElementById('pesoPos').value;
+            const result = document.getElementById('resHidro');
+            
+            if(pre && pos) {
+                const diff = pre - pos;
+                const total = diff * 1.5;
+                result.innerText = `Ingerir: ${total.toFixed(2)} Litros de líquidos com eletrólitos.`;
+            } else {
+                alert("Insira os pesos para calcular.");
+            }
+        }
+    </script>
+    <!-- MÓDULO 9: EXPORTAÇÃO CLÍNICA PDF (NUTRICAO.HTML) -->
+<section id="clinical-report" class="container" style="margin-top: 60px; margin-bottom: 80px;">
+    <div class="export-card glass" style="padding: 60px; border-radius: 40px; text-align: center; border: 2px dashed var(--slate-100); background: var(--white);">
+        <div class="export-icon" style="font-size: 3.5rem; margin-bottom: 20px;">📄</div>
+        <h2 style="font-size: 2.5rem; font-weight: 900; color: var(--slate-900);">Relatório de <span class="mint-text">Sincronização Médica</span></h2>
+        <p style="max-width: 600px; margin: 20px auto; color: var(--slate-500);">
+            Gere um documento profissional contendo sua ingestão hídrica, diagnósticos biomecânicos e rotina nutricional para apresentar ao seu nutricionista ou ortopedista.
+        </p>
+
+        <div class="report-preview" id="reportPreview" style="background: var(--snow); padding: 30px; border-radius: 20px; text-align: left; margin: 30px auto; max-width: 500px; display: none; border: 1px solid var(--slate-100);">
+            <h4 style="border-bottom: 2px solid var(--primary); padding-bottom: 10px;">RESUMO BIOWINGER PRO</h4>
+            <p id="rep-disease"></p>
+            <p id="rep-hydration"></p>
+            <p id="rep-status">Status: Sincronizado</p>
+        </div>
+
+        <div class="export-actions" style="display: flex; justify-content: center; gap: 20px;">
+            <button onclick="prepararRelatorio()" class="btn-secondary" style="padding: 20px 40px;">Gerar Prévia</button>
+            <button id="downloadPdfBtn" class="btn-primary" style="padding: 20px 40px; display: none;">
+                📥 Exportar Relatório (PDF)
+            </button>
+        </div>
+    </div>
+</section>
+
+<!-- JS ADICIONAL PARA O NUTRICAO.HTML -->
+<script>
+function prepararRelatorio() {
+    // Busca dados salvos no localStorage (vindos do index.html e nutricao.html)
+    const history = JSON.parse(localStorage.getItem('bw_clinical_data')) || [];
+    const lastEntry = history[0] || { disease: "Não informado", pain: "N/A" };
+    
+    document.getElementById('reportPreview').style.display = 'block';
+    document.getElementById('downloadPdfBtn').style.display = 'inline-block';
+    
+    document.getElementById('rep-disease').innerText = "Patologia: " + lastEntry.disease;
+    document.getElementById('rep-hydration').innerText = "Última Dor Relatada: " + lastEntry.pain + "/10";
+}
+
+document.getElementById('downloadPdfBtn').addEventListener('click', () => {
+    alert("Gerando Arquivo PDF Professional... \n\n (Nota: Em um sistema real, aqui integraríamos a biblioteca jsPDF para compilar o arquivo final)");
+    
+    // Simulação de download
+    const btn = document.getElementById('downloadPdfBtn');
+    btn.innerText = "✅ Relatório Gerado";
+    btn.style.background = "#27ae60";
+});
+</script>
+
+
+</body>
+</html>

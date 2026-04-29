@@ -1,0 +1,475 @@
+/* 
+    BIOWINGER OS v4.0 - MASTER STYLE SHEET 
+    Sistema de Design para Performance Clínica e Reabilitação
+*/
+
+/* 1. CONFIGURAÇÕES GLOBAIS E VARIÁVEIS */
+:root {
+    /* Cores Primárias (Mint & Arctic) */
+    --primary: #2ecc71;
+    --primary-dark: #27ae60;
+    --primary-light: #d1f2eb;
+    --accent-mint: #1abc9c;
+    
+    /* Paleta de Neutros */
+    --white: #ffffff;
+    --snow: #f8fafc;
+    --slate-50: #f1f5f9;
+    --slate-100: #e2e8f0;
+    --slate-500: #64748b;
+    --slate-800: #1e293b;
+    --slate-900: #0f172a;
+
+    /* Status e Alertas */
+    --danger: #ff4757;
+    --warning: #f1c40f;
+    --success: #2ecc71;
+
+    /* Design Tokens */
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.12);
+    --shadow-md: 0 10px 15px -3px rgba(0,0,0,0.05);
+    --shadow-pro: 0 20px 40px -10px rgba(46, 204, 113, 0.2);
+    --radius-lg: 24px;
+    --radius-md: 16px;
+    --nav-height: 80px;
+    --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* 2. RESET E TIPOGRAFIA */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background-color: var(--snow);
+    color: var(--slate-800);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+.container {
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 0 25px;
+}
+
+/* 3. SISTEMA DE CARREGAMENTO (LOADER) */
+.system-loader {
+    position: fixed;
+    inset: 0;
+    background: var(--white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.6s ease, visibility 0.6s ease;
+}
+
+.loader-content { text-align: center; }
+
+.spinner {
+    width: 50px;
+    height: 50px;
+    border: 4px solid var(--primary-light);
+    border-top: 4px solid var(--primary);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 20px;
+}
+
+.loader-text .main-load {
+    display: block;
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--slate-900);
+    letter-spacing: -1px;
+}
+
+.mint-accent { color: var(--primary); }
+
+.sub-load {
+    font-size: 0.85rem;
+    color: var(--slate-500);
+    font-weight: 500;
+}
+
+/* 4. NAVEGAÇÃO PREMIUM */
+.main-nav {
+    height: var(--nav-height);
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(15px);
+    border-bottom: 1px solid var(--slate-100);
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+}
+
+.nav-container {
+    width: 100%;
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 0 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    cursor: pointer;
+}
+
+.brand-logo { width: 42px; height: 42px; }
+
+.brand-text .title {
+    display: block;
+    font-weight: 800;
+    font-size: 1.1rem;
+    color: var(--slate-900);
+}
+
+.version-badge {
+    font-size: 0.65rem;
+    background: var(--primary-light);
+    color: var(--primary-dark);
+    padding: 2px 8px;
+    border-radius: 6px;
+    margin-left: 5px;
+}
+
+.nav-menu {
+    display: flex;
+    list-style: none;
+    gap: 30px;
+    align-items: center;
+}
+
+.nav-menu a {
+    text-decoration: none;
+    color: var(--slate-500);
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: var(--transition-smooth);
+}
+
+.nav-menu a:hover { color: var(--primary); }
+
+.premium-btn a {
+    background: var(--primary);
+    color: var(--white) !important;
+    padding: 10px 20px;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(46, 204, 113, 0.2);
+}
+
+/* 5. HERO SECTION */
+.hero-section {
+    padding: 160px 0 80px;
+    background: radial-gradient(circle at 80% 20%, var(--primary-light) 0%, transparent 40%);
+}
+
+.status-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--white);
+    padding: 8px 16px;
+    border-radius: 50px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--primary-dark);
+    box-shadow: var(--shadow-sm);
+    margin-bottom: 25px;
+}
+
+.pulse-dot {
+    width: 8px;
+    height: 8px;
+    background: var(--primary);
+    border-radius: 50%;
+    animation: pulse-ring 1.5s infinite;
+}
+
+h1 {
+    font-size: 4rem;
+    line-height: 1.1;
+    font-weight: 800;
+    margin-bottom: 25px;
+    letter-spacing: -2.5px;
+}
+
+.text-gradient {
+    background: linear-gradient(135deg, var(--primary-dark), var(--accent-mint));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.hero-actions { display: flex; gap: 20px; margin-top: 40px; }
+
+/* 6. COMPONENTES DE CARTÃO (GLASSMORPHISM) */
+.glass {
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--slate-100);
+    box-shadow: var(--shadow-md);
+    padding: 40px;
+    transition: var(--transition-smooth);
+}
+
+.card-shadow:hover {
+    box-shadow: var(--shadow-pro);
+    transform: translateY(-5px);
+}
+
+/* 7. FORMULÁRIOS E INPUTS */
+.clinical-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 30px;
+    margin-bottom: 80px;
+}
+
+.modern-form .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.input-field label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: var(--slate-500);
+}
+
+.input-field input, .input-field select {
+    width: 100%;
+    padding: 14px 18px;
+    border-radius: 12px;
+    border: 2px solid var(--slate-50);
+    background: var(--snow);
+    font-family: inherit;
+    font-size: 0.95rem;
+    transition: var(--transition-smooth);
+}
+
+.input-field input:focus {
+    outline: none;
+    border-color: var(--primary);
+    background: var(--white);
+    box-shadow: 0 0 0 4px var(--primary-light);
+}
+
+/* 8. SLIDER DE DOR CUSTOMIZADO */
+.slider-box { margin: 30px 0; }
+.slider-info { display: flex; justify-content: space-between; margin-bottom: 15px; }
+
+.pain-badge {
+    background: var(--slate-900);
+    color: white;
+    padding: 4px 12px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 0.85rem;
+}
+
+.styled-slider {
+    width: 100%;
+    appearance: none;
+    height: 10px;
+    background: var(--slate-100);
+    border-radius: 10px;
+    outline: none;
+}
+
+.styled-slider::-webkit-slider-thumb {
+    appearance: none;
+    width: 26px;
+    height: 26px;
+    background: var(--primary);
+    border: 5px solid var(--white);
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: var(--shadow-sm);
+    transition: 0.2s;
+}
+
+.slider-labels {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--slate-500);
+    text-transform: uppercase;
+}
+
+/* 9. ANATOMIA E BIOMECÂNICA */
+.anatomy-section { padding: 60px; margin-bottom: 80px; }
+.anatomy-grid { display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 50px; }
+
+.leg-svg-pro { width: 100%; max-height: 450px; }
+
+.bone-structure {
+    fill: none;
+    stroke: var(--slate-100);
+    stroke-width: 12;
+    stroke-linecap: round;
+}
+
+.interactive-joint {
+    fill: var(--white);
+    stroke: var(--primary);
+    stroke-width: 4;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+}
+
+.interactive-joint:hover {
+    fill: var(--primary);
+    r: 18;
+}
+
+/* 10. LISTA DE LOGS E HISTÓRICO */
+.analytics-side {
+    display: flex;
+    flex-direction: column;
+    max-height: 600px;
+}
+
+.sidebar-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 25px;
+}
+
+.log-list {
+    overflow-y: auto;
+    padding-right: 10px;
+}
+
+.log-entry {
+    background: var(--snow);
+    padding: 20px;
+    border-radius: 18px;
+    margin-bottom: 15px;
+    border-left: 4px solid var(--primary);
+    animation: slide-in 0.4s ease-out forwards;
+}
+
+/* 11. BOTÕES GLOBAIS */
+.btn-primary {
+    background: var(--primary);
+    color: var(--white);
+    padding: 18px 36px;
+    border-radius: 16px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: var(--transition-smooth);
+    border: none;
+    cursor: pointer;
+}
+
+.btn-primary:hover {
+    background: var(--primary-dark);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 24px rgba(46, 204, 113, 0.3);
+}
+
+.btn-secondary {
+    background: var(--white);
+    color: var(--slate-800);
+    padding: 18px 36px;
+    border-radius: 16px;
+    font-weight: 700;
+    text-decoration: none;
+    border: 2px solid var(--slate-100);
+    transition: var(--transition-smooth);
+}
+
+.btn-secondary:hover { border-color: var(--primary); background: var(--snow); }
+
+.btn-full {
+    width: 100%;
+    padding: 18px;
+    border-radius: 14px;
+    background: var(--slate-900);
+    color: var(--white);
+    font-weight: 800;
+    border: none;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+}
+
+.btn-full:hover { background: var(--primary-dark); transform: scale(1.02); }
+
+/* 12. ANIMAÇÕES */
+@keyframes spin { to { transform: rotate(360deg); } }
+
+@keyframes pulse-ring {
+    0% { box-shadow: 0 0 0 0 rgba(46, 204, 113, 0.4); }
+    70% { box-shadow: 0 0 0 15px rgba(46, 204, 113, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(46, 204, 113, 0); }
+}
+
+@keyframes slide-in {
+    from { opacity: 0; transform: translateX(20px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+/* 13. RESPONSIVIDADE */
+@media (max-width: 1024px) {
+    h1 { font-size: 3rem; }
+    .clinical-grid, .anatomy-grid { grid-template-columns: 1fr; }
+    .modern-form .form-row { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 768px) {
+    .nav-menu { display: none; } /* Simplicidade para mobile */
+    .hero-actions { flex-direction: column; }
+    h1 { font-size: 2.5rem; letter-spacing: -1.5px; }
+}
+
+/* 14. FOOTER */
+.site-footer {
+    background: var(--slate-900);
+    color: var(--white);
+    padding: 80px 0 40px;
+    margin-top: 100px;
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 60px;
+    margin-bottom: 60px;
+}
+
+.footer-links a {
+    display: block;
+    color: var(--slate-500);
+    text-decoration: none;
+    margin-bottom: 12px;
+    transition: 0.3s;
+}
+
+.footer-links a:hover { color: var(--primary); }
+
+.footer-bottom {
+    text-align: center;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    padding-top: 40px;
+    font-size: 0.8rem;
+    color: var(--slate-500);
+}

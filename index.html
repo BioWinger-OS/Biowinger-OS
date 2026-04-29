@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BIOWINGER Pro | Clinical Authentication</title>
+    <style>
+        /* IMPORTAÇÃO DE VARIÁVEIS DA SUA UI v3.0 */
+        :root {
+            --primary-mint: #2ecc71;
+            --dark-mint: #27ae60;
+            --soft-mint: #e8f8f0;
+            --border-mint: rgba(46, 204, 113, 0.3);
+            --white-bg: #ffffff;
+            --snow-bg: #f4f7f6;
+            --text-deep: #1a202c;
+            --text-soft: #718096;
+            --shadow-premium: 0 30px 60px rgba(0,0,0,0.12);
+            --anim-curve: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background-color: var(--snow-bg);
+            color: var(--text-deep);
+            overflow-x: hidden;
+        }
+
+        /* FUNDO DE LINHAS TÁTICAS (GRID DINÂMICO) */
+        .tactical-bg {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: 
+                linear-gradient(var(--border-mint) 1px, transparent 1px),
+                linear-gradient(90deg, var(--border-mint) 1px, transparent 1px),
+                radial-gradient(circle at 50% 50%, transparent 0%, var(--snow-bg) 80%);
+            background-size: 40px 40px, 40px 40px, 100% 100%;
+            z-index: -1;
+            opacity: 0.6;
+        }
+
+        /* SEÇÃO DE LOGIN */
+        .auth-section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+        }
+
+        .login-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--white-bg);
+            border-radius: 35px;
+            padding: 50px;
+            box-shadow: var(--shadow-premium);
+            width: 100%;
+            max-width: 450px;
+            text-align: center;
+            position: relative;
+        }
+
+        /* EFEITO DE LINHAS NAS BORDAS DO CARD */
+        .login-card::before {
+            content: '';
+            position: absolute;
+            top: -2px; left: -2px; right: -2px; bottom: -2px;
+            border: 1px solid var(--primary-mint);
+            border-radius: 37px;
+            opacity: 0.2;
+            pointer-events: none;
+        }
+
+        .version-badge {
+            background: var(--soft-mint);
+            color: var(--dark-mint);
+            padding: 6px 15px;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 800;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+
+        /* FLUXO DE CÓDIGO DE VERIFICAÇÃO */
+        .code-inputs {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin: 25px 0;
+        }
+
+        .code-digit {
+            width: 50px;
+            height: 60px;
+            border-radius: 12px;
+            border: 2px solid var(--soft-mint);
+            background: var(--white-bg);
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--dark-mint);
+            transition: 0.3s;
+        }
+
+        .code-digit:focus {
+            border-color: var(--primary-mint);
+            box-shadow: 0 0 15px rgba(46, 204, 113, 0.2);
+            outline: none;
+        }
+
+        /* PRÉVIA DO SITE (BOTTOM SECTION) */
+        .preview-section {
+            background: var(--white-bg);
+            padding: 100px 5%;
+            border-top: 1px solid var(--border-mint);
+            position: relative;
+        }
+
+        .preview-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .preview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .preview-mockup {
+            border: 1px solid var(--border-mint);
+            border-radius: 20px;
+            padding: 20px;
+            background: var(--snow-bg);
+            opacity: 0.7;
+            transform: scale(0.95);
+            transition: 0.5s;
+        }
+
+        .preview-mockup:hover {
+            opacity: 1;
+            transform: scale(1);
+            border-color: var(--primary-mint);
+        }
+
+        .btn-main {
+            width: 100%;
+            padding: 18px;
+            border-radius: 18px;
+            border: none;
+            background: linear-gradient(135deg, var(--primary-mint), var(--dark-mint));
+            color: white;
+            font-weight: 800;
+            cursor: pointer;
+            transition: 0.4s var(--anim-curve);
+        }
+
+        .btn-main:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(46, 204, 113, 0.3);
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="tactical-bg"></div>
+
+    <!-- SEÇÃO DE LOGIN -->
+    <section class="auth-section">
+        <div class="login-card">
+            <span class="version-badge">SISTEMA CLÍNICO</span>
+            <h2 style="margin:0; font-size: 2.4rem;">BIOWINGER</h2>
+            <p style="color: var(--text-soft); font-weight: 500; margin-bottom: 35px;">Insira o código enviado ao seu e-mail</p>
+
+            <form action="main.html">
+                <input type="email" placeholder="E-mail institucional" class="code-digit" style="width: 100%; height: 50px; font-size: 1rem; margin-bottom: 10px; border-radius: 15px; padding: 0 15px; text-align: left;">
+                
+                <div class="code-inputs">
+                    <input type="text" maxlength="1" class="code-digit">
+                    <input type="text" maxlength="1" class="code-digit">
+                    <input type="text" maxlength="1" class="code-digit">
+                    <input type="text" maxlength="1" class="code-digit">
+                </div>
+
+                <button type="submit" class="btn-main">AUTENTICAR E ENTRAR</button>
+            </form>
+
+            <p style="margin-top: 25px; font-size: 0.85rem; color: var(--text-soft);">
+                Não recebeu o código? <a href="#" style="color: var(--primary-mint); font-weight: 700; text-decoration: none;">Reenviar Protocolo</a>
+            </p>
+        </div>
+        
+        <div style="margin-top: 50px; color: var(--text-soft); animation: bounce 2s infinite;">
+            <p>Conheça o sistema abaixo</p>
+            <span>▼</span>
+        </div>
+    </section>
+
+    <!-- SEÇÃO PRÉVIA (PARA NOVOS USUÁRIOS) -->
+    <section class="preview-section">
+        <div class="preview-header">
+            <h3 style="font-size: 2rem; color: var(--dark-mint);">Arquitetura Adaptativa</h3>
+            <p>Sua evolução monitorada por dados clínicos de alta precisão.</p>
+        </div>
+
+        <div class="preview-grid">
+            <!-- Mockup do Pos-Picker -->
+            <div class="preview-mockup">
+                <div style="width: 40px; height: 40px; background: var(--primary-mint); border-radius: 10px; margin-bottom: 15px;"></div>
+                <h4 style="margin: 0;">Prescrição por Posição</h4>
+                <p style="font-size: 0.9rem; color: var(--text-soft);">Algoritmos que definem o treino baseado na sua função tática em campo.</p>
+                <div style="display: flex; gap: 5px; margin-top: 10px;">
+                    <div style="height: 6px; width: 30%; background: var(--soft-mint); border-radius: 3px;"></div>
+                    <div style="height: 6px; width: 60%; background: var(--soft-mint); border-radius: 3px;"></div>
+                </div>
+            </div>
+
+            <!-- Mockup do Workout-Card -->
+            <div class="preview-mockup">
+                <div style="width: 40px; height: 40px; background: var(--dark-mint); border-radius: 10px; margin-bottom: 15px;"></div>
+                <h4 style="margin: 0;">Módulos de Reabilitação</h4>
+                <p style="font-size: 0.9rem; color: var(--text-soft);">Protocolos de prevenção de lesões com feedback em tempo real.</p>
+                <div style="height: 40px; background: var(--white-bg); border-radius: 10px; margin-top: 10px; border: 1px dashed var(--border-mint);"></div>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 80px;">
+            <hr style="border: 0; border-top: 1px solid var(--border-mint); margin-bottom: 40px;">
+            <p style="font-weight: 800; color: var(--text-deep); letter-spacing: 2px;">BIOWINGER CLINICAL SYSTEMS © 2024</p>
+        </div>
+    </section>
+
+    <script>
+        // Script simples para pular para o próximo campo de código automaticamente
+        const inputs = document.querySelectorAll('.code-digit');
+        inputs.forEach((input, index) => {
+            input.addEventListener('keyup', (e) => {
+                if (e.target.value.length === 1 && index < inputs.length - 1) {
+                    inputs[index + 1].focus();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

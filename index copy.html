@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZagaPro AI | Tactical Intelligence System</title>
+    
+    <!-- Bibliotecas de Estilo e Ícones -->
+    <link href="https://googleapis.com" rel="stylesheet">
+    <link rel="stylesheet" href="https://cloudflare.com">
+    
+    <style>
+        :root {
+            --mint: #98FF98;
+            --mint-dark: #64e064;
+            --navy-deep: #000d1a;
+            --navy-surface: #001529;
+            --navy-light: #002140;
+            --accent-blue: #00d2ff;
+            --white: #f8f9fa;
+            --text-muted: #a0aec0;
+            --danger: #ff4d4d;
+            --glass: rgba(255, 255, 255, 0.03);
+            --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--navy-deep);
+            color: var(--white);
+            display: flex;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* --- SIDEBAR LATERAL --- */
+        aside {
+            width: 380px;
+            background: var(--navy-surface);
+            border-right: 1px solid rgba(152, 255, 152, 0.1);
+            padding: 45px 30px;
+            display: flex;
+            flex-direction: column;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            z-index: 100;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 50px;
+        }
+
+        .brand i {
+            font-size: 2.8rem;
+            color: var(--mint);
+            filter: drop-shadow(0 0 15px rgba(152, 255, 152, 0.4));
+        }
+
+        .brand h1 {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 2rem;
+            line-height: 0.9;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .input-section { margin-bottom: 25px; }
+        .label-tech {
+            font-size: 0.75rem;
+            font-weight: 800;
+            color: var(--mint);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .input-field {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 12px;
+            color: white;
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+
+        .input-field:focus {
+            border-color: var(--mint);
+            box-shadow: 0 0 20px rgba(152, 255, 152, 0.2);
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .dual-inputs { display: flex; gap: 15px; }
+
+        .btn-ai {
+            background: linear-gradient(135deg, var(--mint) 0%, var(--mint-dark) 100%);
+            color: var(--navy-deep);
+            padding: 22px;
+            border-radius: 15px;
+            border: none;
+            font-weight: 800;
+            font-size: 1.1rem;
+            cursor: pointer;
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            transition: var(--transition);
+        }
+
+        .btn-ai:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(152, 255, 152, 0.3);
+        }
+
+        /* --- CONTEÚDO PRINCIPAL --- */
+        main {
+            flex: 1;
+            padding: 60px;
+            background: radial-gradient(circle at top right, #001f3d, var(--navy-deep));
+            overflow-y: auto;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 50px;
+        }
+
+        .performance-badge {
+            background: var(--glass);
+            padding: 15px 30px;
+            border-radius: 50px;
+            border: 1px solid rgba(152, 255, 152, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .pulse-dot {
+            width: 12px; height: 12px;
+            background: var(--mint);
+            border-radius: 50%;
+            animation: pulse-ring 2s infinite;
+        }
+
+        /* --- DASHBOARD GRID --- */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 25px;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        .dashboard-grid.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .card {
+            background: var(--glass);
+            backdrop-filter: blur(15px);
+            border-radius: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 35px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        .col-8 { grid-column: span 8; }
+        .col-4 { grid-column: span 4; }
+        .col-12 { grid-column: span 12; }
+
+        /* --- TREINOS INTERATIVOS --- */
+        .training-container { display: flex; flex-direction: column; gap: 15px; }
+
+        .training-item {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 18px;
+            padding: 25px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .training-item:hover {
+            background: rgba(152, 255, 152, 0.05);
+            border-color: var(--mint);
+            transform: scale(1.01);
+        }
+
+        .training-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .training-header h3 { font-family: 'Rajdhani'; font-size: 1.4rem; color: var(--mint); }
+
+        .training-details {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-out;
+            margin-top: 0;
+        }
+
+        .training-details.open {
+            max-height: 1000px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .detail-block { margin-bottom: 15px; font-size: 0.9rem; }
+        .detail-block strong { color: var(--mint); display: block; margin-bottom: 5px; font-size: 0.75rem; text-transform: uppercase; }
+
+        /* --- SCORE CIRCULAR --- */
+        .score-circle {
+            width: 150px; height: 150px;
+            border-radius: 50%;
+            border: 10px solid var(--navy-light);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            position: relative;
+        }
+
+        .score-num { font-family: 'Rajdhani'; font-size: 3.5rem; font-weight: 700; color: var(--mint); }
+
+        /* --- ANIMAÇÕES --- */
+        @keyframes pulse-ring {
+            0% { transform: scale(0.9); box-shadow: 0 0 0 0 rgba(152, 255, 152, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 15px rgba(152, 255, 152, 0); }
+            100% { transform: scale(0.9); box-shadow: 0 0 0 0 rgba(152, 255, 152, 0); }
+        }
+
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: var(--navy-deep); }
+        ::-webkit-scrollbar-thumb { background: var(--navy-light); border-radius: 5px; }
+
+    </style>
+</head>
+<body>
+
+    <aside>
+        <div class="brand">
+            <i class="fa-solid fa-shield-halved"></i>
+            <div>
+                <h1>ZAGAPRO</h1>
+                <p style="color: var(--text-muted); font-size: 0.7rem; font-weight: 700;">IA DEFENSIVE SYSTEM</p>
+            </div>
+        </div>
+        <div class="nav-back">
+        <a href="main.html" class="btn-nav">← Voltar ao Laboratório</a>
+    </div>
+        <div class="input-section">
+            <div class="label-tech"><i class="fa-solid fa-user-gear"></i> Sub's</div>
+            <select id="subSelect" class="input-field">
+                <option value="Sub-8">Sub-8 (Iniciação)</option>
+                <option value="Sub-10">Sub-10 (Fundamentação)</option>
+                <option value="Sub-12">Sub-12 (Especialização I)</option>
+                <option value="Sub-14">Sub-14 (Especialização II)</option>
+                <option value="Sub-16">Sub-16 (Performance)</option>
+                <option value="Sub-18">Sub-18 (Elite Profissional)</option>
+            </select>
+        </div>
+
+        <div class="input-section">
+            <div class="label-tech"><i class="fa-solid fa-weight-scale"></i> Biometria Atleta</div>
+            <div class="dual-inputs">
+                <input type="number" id="pesoInput" class="input-field" placeholder="Peso (kg)" value="65">
+                <input type="number" id="alturaInput" class="input-field" step="0.01" placeholder="Altura (m)" value="1.75">
+            </div>
+        </div>
+
+        <div class="input-section">
+            <div class="label-tech"><i class="fa-solid fa-bolt"></i> Nível de Treino</div>
+            <select id="nivelSelect" class="input-field">
+                <option value="recuperacao">Recuperação / Preventivo</option>
+                <option value="normal">Normal / Manutenção</option>
+                <option value="intensivo">Intensivo / Pré-Competitivo</option>
+            </select>
+        </div>
+
+        <div class="input-section">
+            <div class="label-tech"><i class="fa-solid fa-battery-half"></i> Nível de Fadiga (1-10)</div>
+            <input type="range" id="fadigaInput" min="1" max="10" value="3" style="width: 100%; accent-color: var(--mint);">
+            <div style="display: flex; justify-content: space-between; font-size: 0.65rem; color: var(--text-muted); margin-top: 8px;">
+                <span>DESCANSO TOTAL</span>
+                <span>FADIGA TOTAL</span>
+            </div>
+        </div>
+
+        <button class="btn-ai" onclick="runZagaPro()">
+            <i class="fa-solid fa-microchip"></i> COMPUTAR PLANO
+        </button>
+    </aside>
+
+    <main>
+        <div class="header-content">
+            <div>
+                <h2 style="font-family: 'Rajdhani'; font-size: 2.5rem; letter-spacing: 1px;">PAINEL TÁTICO</h2>
+                <p style="color: var(--text-muted);">Sincronizado com protocolos de treinamento de elite.</p>
+            </div>
+            <div class="performance-badge">
+                <div class="pulse-dot"></div>
+                <span id="statusText">IA EM ESPERA</span>
+            </div>
+        </div>
+
+        <div id="dashboard" class="dashboard-grid">
+            
+            <!-- Card de Biometria e Prontidão -->
+            <div class="card col-4" style="text-align: center;">
+                <div class="label-tech" style="justify-content: center; margin-bottom: 30px;">Prontidão Física</div>
+                <div class="score-circle">
+                    <span id="scoreVal" class="score-num">0</span>
+                    <small style="font-size: 0.7rem; color: var(--text-muted); font-weight: 800;">READY %</small>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 20px;">
+                    <div style="background: rgba(0,0,0,0.2); padding: 15px; border-radius: 15px;">
+                        <small color="var(--text-muted)">IMC</small>
+                        <h4 id="imcVal" style="color: var(--accent-blue);">--</h4>
+                    </div>
+                    <div style="background: rgba(0,0,0,0.2); padding: 15px; border-radius: 15px;">
+                        <small color="var(--text-muted)">KCAL/DIA</small>
+                        <h4 id="kcalVal" style="color: var(--mint);">--</h4>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card de Insights da IA -->
+            <div class="card col-8" style="border-left: 5px solid var(--accent-blue);">
+                <div class="label-tech" style="color: var(--accent-blue);"><i class="fa-solid fa-brain"></i> Insight Estratégico</div>
+                <p id="insightIA" style="font-size: 1.3rem; font-style: italic; line-height: 1.6; color: #e2e8f0; margin: 20px 0;"></p>
+                <div id="alertaFadiga" style="display:none; background: rgba(255, 77, 77, 0.1); border: 1px solid var(--danger); padding: 15px; border-radius: 12px; color: var(--danger); font-size: 0.85rem;">
+                    <i class="fa-solid fa-triangle-exclamation"></i> <strong>ALERTA DE SOBRECARGA:</strong> IA ativada para prevenção de lesões.
+                </div>
+            </div>
+
+            <!-- Card de Treinos Detalhados -->
+            <div class="card col-8">
+                <div class="label-tech"><i class="fa-solid fa-dumbbell"></i> Prescrição Solo Detalhada</div>
+                <div id="trainingList" class="training-container">
+                    <!-- Gerado Dinamicamente -->
+                </div>
+            </div>
+
+            <!-- Card de Nutrição -->
+            <div class="card col-4">
+                <div class="label-tech"><i class="fa-solid fa-utensils"></i> Protocolo Nutricional</div>
+                <div id="nutritionInfo">
+                    <!-- Gerado Dinamicamente -->
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Scripts do Sistema (Certifique-se que os nomes coincidem) -->
+    <script src="bancotreinos.js"></script>
+    <script src="bancodietas.js"></script>
+    <script src="ia.js"></script>
+
+    <script>
+        function runZagaPro() {
+            // Coleta de dados da interface
+            const sub = document.getElementById('subSelect').value;
+            const nivel = document.getElementById('nivelSelect').value;
+            const fadiga = parseInt(document.getElementById('fadigaInput').value);
+            const bioData = {
+                peso: parseFloat(document.getElementById('pesoInput').value),
+                altura: parseFloat(document.getElementById('alturaInput').value)
+            };
+
+            // Processamento via IA engine (ia.js)
+            const result = processarIA(sub, nivel, fadiga, bioData);
+
+            // Atualização da UI
+            const dash = document.getElementById('dashboard');
+            dash.classList.add('visible');
+            
+            document.getElementById('statusText').innerText = "ANÁLISE CONCLUÍDA";
+            document.getElementById('scoreVal').innerText = result.score;
+            document.getElementById('imcVal').innerText = result.metadados.imc;
+            document.getElementById('kcalVal').innerText = result.metadados.caloriasEstimadas;
+            document.getElementById('insightIA').innerText = `"${result.dicaMestre}"`;
+
+            // Alerta de segurança
+            const alerta = document.getElementById('alertaFadiga');
+            alerta.style.display = result.metadados.alertaLesao ? 'block' : 'none';
+
+            // Renderização de Treinos com Sistema de Expansão
+            const tList = document.getElementById('trainingList');
+            tList.innerHTML = result.planoTreino.map((t, i) => `
+                <div class="training-item" onclick="toggleDetails(${i})">
+                    <div class="training-header">
+                        <h3>${t.nome}</h3>
+                        <span style="color:var(--mint); font-size:0.8rem; font-weight:800;">
+                            <i class="fa-solid fa-clock"></i> ${t.tempo}
+                        </span>
+                    </div>
+                    <div id="details-${i}" class="training-details">
+                        <div class="detail-block">
+                            <strong><i class="fa-solid fa-list-check"></i> Execução Passo a Passo</strong>
+                            <p style="color:#ccc;">${t.desc}</p>
+                        </div>
+                        <div class="detail-block">
+                            <strong><i class="fa-solid fa-lightbulb"></i> Instrução Técnica</strong>
+                            <p style="color:var(--text-muted);">${t.tecnico}</p>
+                        </div>
+                        <div class="detail-block" style="background:rgba(0,210,255,0.05); padding:10px; border-radius:8px;">
+                            <strong><i class="fa-solid fa-dna"></i> Biomecânica Aplicada</strong>
+                            <p style="font-size:0.8rem; color:var(--accent-blue);">${t.biomecanica || 'Análise de torque e estabilidade articular.'}</p>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+
+            // Renderização de Nutrição
+            const nInfo = document.getElementById('nutritionInfo');
+            const d = result.planoDieta;
+            nInfo.innerHTML = `
+                <div style="background:var(--navy-light); padding:20px; border-radius:15px; margin-bottom:20px;">
+                    <p style="color:var(--mint); font-weight:800; font-size:0.8rem; margin-bottom:10px;">META NUTRICIONAL</p>
+                    <p style="font-size:0.9rem;">${d.foco}</p>
+                </div>
+                ${d.refeicoes.map(r => `
+                    <div style="margin-bottom:15px; padding-left:15px; border-left:2px solid var(--accent-blue);">
+                        <small style="color:var(--accent-blue); font-weight:800;">${r.horario}</small>
+                        <p style="font-size:0.85rem;">${r.opcoes.join(' • ')}</p>
+                    </div>
+                `).join('')}
+            `;
+
+            // Scroll suave
+            window.scrollTo({ top: 100, behavior: 'smooth' });
+        }
+
+        function toggleDetails(index) {
+            const detail = document.getElementById(`details-${index}`);
+            detail.classList.toggle('open');
+        }
+    </script>
+</body>
+</html>
