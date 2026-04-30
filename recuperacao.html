@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="pt-br" class="no-js">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>BIOWINGER OS | Treinos de Recuperação</title>
+    <link rel="preconnect" href="https://googleapis.com">
+    <link rel="preconnect" href="https://gstatic.com" crossorigin>
+    <link href="https://googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="antialiased">
+    <nav class="main-nav">
+        <div class="nav-container">
+            <div class="brand" onclick="window.location.href='main.html'">
+                <div style="width: 35px; height: 35px; background: var(--primary); border-radius: 10px;"></div>
+                <div class="brand-text"><span class="title">BIOWINGER</span><span class="version-badge">RECUPERAÇÃO</span></div>
+            </div>
+            <ul class="nav-menu" id="mainMenu">
+                <li><a href="main.html">Painel Clínico</a></li>
+                <li><a href="treinosia.html">Treinos IA</a></li>
+                <li><a href="recuperacao.html" style="color: var(--primary-dark); font-weight: 800;">Recuperação</a></li>
+                <li><a href="nutricao.html">Nutrição</a></li>
+                <li><a href="pdf.html">Relatório PDF</a></li>
+                <li class="premium-btn"><a href="#" onclick="alert('Recuperação customizada ativada')">Salvar</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container" style="padding-top: 120px;">
+        <section class="hero-section" style="padding-bottom: 30px;">
+            <div class="status-indicator"><div class="pulse-dot"></div>Gerador de Treinos de Recuperação</div>
+            <h1>Plano de <span class="text-gradient">Recuperação Inteligente</span></h1>
+            <p style="max-width: 680px; color: var(--slate-500); margin-top: 20px; font-weight: 500;">
+                Ajuste o treino com base em fadiga, dor e localização do desconforto. O protocolo entrega exercícios leves, mobilidade e estabilidade para a readaptação segura.
+            </p>
+        </section>
+
+        <section class="glass card-shadow" style="padding: 40px; margin-bottom: 40px;">
+            <div class="tab-nav">
+                <button class="tab-item active" data-tab="settingsTab">Configuração</button>
+                <button class="tab-item" data-tab="insightsTab">Recomendações</button>
+            </div>
+
+            <div id="settingsTab" class="tab-content active">
+                <form id="recoveryForm" class="modern-form">
+                    <div class="form-row">
+                        <div class="input-field">
+                            <label for="positionInput">Posição do Atleta</label>
+                            <select id="positionInput">
+                                <option value="GK">Goleiro</option>
+                                <option value="DEF">Defensor</option>
+                                <option value="MID">Meio-campo</option>
+                                <option value="WG">Ponta</option>
+                                <option value="ST">Atacante</option>
+                            </select>
+                        </div>
+                        <div class="input-field">
+                            <label for="loadInput">Foco de Carga</label>
+                            <select id="loadInput">
+                                <option value="active">Recuperação Ativa</option>
+                                <option value="soft">Recuperação Suave</option>
+                                <option value="rehab">Reabilitação Clínica</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="input-field">
+                            <label>Nível de Fadiga</label>
+                            <div class="slider-box">
+                                <div class="slider-info">
+                                    <span class="input-label">Fadiga muscular</span>
+                                    <span id="fatigueLabel" class="pain-badge">0 / 10</span>
+                                </div>
+                                <input type="range" id="fatigueInput" min="0" max="10" value="0" class="styled-slider">
+                            </div>
+                        </div>
+                        <div class="input-field">
+                            <label>Nível de Dor</label>
+                            <div class="slider-box">
+                                <div class="slider-info">
+                                    <span class="input-label">Dor ou desconforto</span>
+                                    <span id="painLabel" class="pain-badge">0 - Indolor</span>
+                                </div>
+                                <input type="range" id="painInput" min="0" max="10" value="0" class="styled-slider">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="input-field">
+                            <label for="painLocationInput">Local da Dor</label>
+                            <select id="painLocationInput">
+                                <option value="knee">Joelho</option>
+                                <option value="ankle">Tornozelo</option>
+                                <option value="hip">Quadril/Pelve</option>
+                                <option value="quad">Coxa</option>
+                                <option value="lowerBack">Parte inferior das costas</option>
+                            </select>
+                        </div>
+                        <div class="input-field">
+                            <label for="symptomInput">Descrição do Sintoma</label>
+                            <textarea id="symptomInput" rows="4" placeholder="Ex: Sensação de peso ao correr, rigidez após treino." style="resize:none;"></textarea>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-primary" style="margin-top: 20px;">Gerar Treino de Recuperação</button>
+                </form>
+            </div>
+
+            <div id="insightsTab" class="tab-content">
+                <div class="recovery-grid">
+                    <div class="recovery-card">
+                        <h3>Como o sistema avalia</h3>
+                        <p>Combina a intensidade de fadiga e dor para escolher entre treino ativo, mobilidade regenerativa e exercícios de estabilidade articular.</p>
+                        <ul style="margin-top: 18px; list-style: disc inside; color: var(--slate-600);">
+                            <li>Fadiga alta > 8 adapta para sessões leves.</li>
+                            <li>Dor moderada prioriza isometria e baixa carga.</li>
+                            <li>Localização do desconforto define foco de estabilização.</li>
+                        </ul>
+                    </div>
+                    <div class="recovery-card">
+                        <h3>Quando usar</h3>
+                        <p>Perfeito após jogos intensos, sessões de força muito pesadas ou quando há dor localizada que exige readaptação controlada.</p>
+                        <div style="margin-top: 18px; display:flex; flex-wrap:wrap; gap:10px;">
+                            <span class="recovery-chip">Mobilidade</span>
+                            <span class="recovery-chip">Isometria</span>
+                            <span class="recovery-chip">Controle Neuromuscular</span>
+                            <span class="recovery-chip">Baixa carga</span>
+                            <span class="recovery-chip">Pausas ativas</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="recoveryOutput" class="recovery-result glass card-shadow" style="display:none; padding: 40px;">
+            <div class="section-header" style="margin-bottom: 30px;">
+                <div class="icon-circle">⚕️</div>
+                <div>
+                    <h2>Plano de Recuperação</h2>
+                    <p id="planSummary" style="color: var(--slate-500);">Aguarde breves instantes enquanto geramos o protocolo.</p>
+                </div>
+            </div>
+            <div id="recoveryCards"></div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer-grid">
+            <div>
+                <h3>BioWinger OS</h3>
+                <p>Treinos clínicos para recuperação, controle de carga e retorno seguro à performance.</p>
+            </div>
+            <div class="footer-links">
+                <a href="main.html">Painel Clínico</a>
+                <a href="treinosia.html">Treinos IA</a>
+                <a href="nutricao.html">Nutrição</a>
+            </div>
+        </div>
+        <div class="footer-bottom">© 2026 BioWinger OS — Todos os direitos reservados.</div>
+    </footer>
+
+    <script>
+        const fatInput = document.getElementById('fatigueInput');
+        const painInput = document.getElementById('painInput');
+        const fatigueLabel = document.getElementById('fatigueLabel');
+        const painLabel = document.getElementById('painLabel');
+        const recoveryForm = document.getElementById('recoveryForm');
+        const recoveryOutput = document.getElementById('recoveryOutput');
+        const recoveryCards = document.getElementById('recoveryCards');
+        const planSummary = document.getElementById('planSummary');
+        const tabs = document.querySelectorAll('.tab-item');
+
+        fatInput.oninput = () => {
+            fatigueLabel.textContent = fatInput.value + ' / 10';
+        };
+
+        painInput.oninput = () => {
+            const value = parseInt(painInput.value, 10);
+            let message = value === 0 ? '0 - Indolor' : value <= 3 ? value + ' - Leve' : value <= 6 ? value + ' - Moderado' : value <= 8 ? value + ' - Forte' : value + ' - Agudo';
+            painLabel.textContent = message;
+            painLabel.style.background = value >= 8 ? 'rgba(255, 116, 116, 0.18)' : 'var(--slate-900)';
+        };
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(item => item.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+                tab.classList.add('active');
+                document.getElementById(tab.dataset.tab).classList.add('active');
+            });
+        });
+
+        const RECOVERY_EXERCISES = {
+            GK: [
+                { name: 'Circuito de Mobilidade de Ombros', detail: 'Rotação suave + estabilidade isométrica para controle da linha defensiva.' },
+                { name: 'Descarga de Explosão com Elástico', detail: 'Baixa intensidade com foco na consciência corporal e desaceleração.' }
+            ],
+            DEF: [
+                { name: 'Ponte de Glúteos com Pausa', detail: 'Fortalece a cadeia posterior com controle de torque e apoio plantar.' },
+                { name: 'Marcha do Caranguejo', detail: 'Melhora estabilidade lateral do joelho e recrutamento do quadril.' }
+            ],
+            MID: [
+                { name: 'Prancha com Alcance Lateral', detail: 'Estabilidade central e controle de entrega de força sob fadiga.' },
+                { name: 'Anéis de Isometria dos Isquiotibiais', detail: 'Ativa posterior sem impacto, ideal para recuperação muscular.' }
+            ],
+            WG: [
+                { name: 'Marcha Lateral com Banda', detail: 'Ativa o glúteo médio e protege o quadril contra valgo dinâmico.' },
+                { name: 'Perfilado ao Solo', detail: 'Alongamento ativo da cadeia posterior com controle do tronco.' }
+            ],
+            ST: [
+                { name: 'Agachamento Peso Corporal Controlado', detail: 'Técnica livre de salto para readaptar o padrão de suporte.' },
+                { name: 'Estabilização Unipodal com Reflexo', detail: 'Treino de propriocepção para retorno seguro ao sprint.' }
+            ]
+        };
+
+        recoveryForm.onsubmit = function(event) {
+            event.preventDefault();
+
+            const position = document.getElementById('positionInput').value;
+            const load = document.getElementById('loadInput').value;
+            const fatigue = parseInt(fatInput.value, 10);
+            const pain = parseInt(painInput.value, 10);
+            const location = document.getElementById('painLocationInput').value;
+            const symptom = document.getElementById('symptomInput').value.trim();
+
+            const mode = pain >= 8 || fatigue >= 8 ? 'Recuperação profunda' : pain >= 5 || fatigue >= 6 ? 'Recuperação ativa' : 'Manutenção regenerativa';
+            const tone = pain >= 7 ? 'Foco em baixa carga e exercícios isométricos.' : 'Ênfase em mobilidade e estabilização dinâmica.';
+            const locationHint = location === 'knee' ? 'reduza rotação e carga de impacto no joelho' : location === 'ankle' ? 'priorize controle de tornozelo e apoio' : location === 'hip' ? 'ative os estabilizadores do quadril' : location === 'lowerBack' ? 'mantenha a postura neutra da pelve' : 'trabalhe estabilidade e controle de cadeia.';
+
+            planSummary.textContent = `${mode} para ${position} — ${tone} ${locationHint}`;
+            recoveryCards.innerHTML = '';
+
+            const exercises = RECOVERY_EXERCISES[position] || RECOVERY_EXERCISES.MID;
+            exercises.forEach((item, index) => {
+                const card = document.createElement('div');
+                card.className = 'recovery-card';
+                card.innerHTML = `
+                    <h3>${index + 1}. ${item.name}</h3>
+                    <p style="color: var(--slate-600); margin: 14px 0;">${item.detail}</p>
+                    <div style="display:flex; gap:12px; flex-wrap:wrap; margin-top: 10px;">
+                        <span class="recovery-chip">Carga: ${mode === 'Recuperação profunda' ? 'Baixa' : 'Moderada'}</span>
+                        <span class="recovery-chip">Foco: ${load === 'rehab' ? 'Reabilitação' : load === 'soft' ? 'Suave' : 'Ativa'}</span>
+                        <span class="recovery-chip">Dor: ${pain}/10</span>
+                    </div>
+                `;
+                recoveryCards.appendChild(card);
+            });
+
+            const advice = document.createElement('div');
+            advice.className = 'recovery-card';
+            advice.innerHTML = `
+                <h3>Recomendações</h3>
+                <p style="color: var(--slate-600); margin: 14px 0;">${pain >= 7 ? 'Respeite a intensidade da dor e mantenha os movimentos suaves. Evite qualquer impacto direto na área sensível.' : 'Mantenha as repetições controladas e use pausas ativas para maximizar a recuperação sem sobrecarregar.'}</p>
+                <ul style="list-style: disc inside; color: var(--slate-600);">
+                    <li>Priorize hidratação e sono de qualidade.</li>
+                    <li>Use respiração ritmada durante cada repetição.</li>
+                    <li>Escute a resposta do corpo e ajuste se a dor aumentar.</li>
+                </ul>
+            `;
+            recoveryCards.appendChild(advice);
+
+            recoveryOutput.style.display = 'block';
+            recoveryOutput.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        };
+    </script>
+</body>
+</html>

@@ -324,6 +324,176 @@ h1 {
     text-transform: uppercase;
 }
 
+.summary-panel {
+    display: grid;
+    grid-template-columns: 1fr 0.9fr;
+    gap: 24px;
+    padding: 28px;
+    border-radius: 28px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(241,248,252,0.8));
+    border: 1px solid rgba(46, 204, 113, 0.14);
+    margin-bottom: 30px;
+}
+
+.summary-panel h2 {
+    margin-bottom: 10px;
+}
+
+.summary-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 14px;
+    border-radius: 999px;
+    background: rgba(46, 204, 113, 0.12);
+    color: var(--primary-dark);
+    font-size: 0.85rem;
+    font-weight: 700;
+}
+
+.exercise-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px;
+}
+
+.exercise-detail-card {
+    background: var(--white);
+    border: 1px solid var(--slate-100);
+    border-radius: 28px;
+    padding: 28px;
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.badge-pos {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    border-radius: 999px;
+    background: rgba(46, 204, 113, 0.12);
+    color: var(--primary-dark);
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.instruction-box {
+    background: var(--slate-50);
+    padding: 22px;
+    border-radius: 22px;
+    border: 1px solid rgba(100, 116, 139, 0.08);
+}
+
+.instruction-step {
+    display: grid;
+    grid-template-columns: 40px 1fr;
+    gap: 16px;
+    align-items: start;
+    margin-bottom: 16px;
+}
+
+.step-number {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--primary);
+    color: var(--white);
+    display: grid;
+    place-items: center;
+    font-weight: 800;
+    box-shadow: var(--shadow-sm);
+}
+
+.stat-bar {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.stat-pill {
+    border-radius: 999px;
+    padding: 10px 16px;
+    background: var(--slate-100);
+    color: var(--slate-700);
+    font-size: 0.85rem;
+    font-weight: 700;
+}
+
+@media (max-width: 1024px) {
+    .summary-panel { grid-template-columns: 1fr; }
+    .exercise-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 768px) {
+    .hero-actions { flex-direction: column; }
+    .clinical-grid { grid-template-columns: 1fr; }
+    .nav-back { left: 1rem; }
+}
+
+.tab-nav {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+    margin-bottom: 28px;
+}
+
+.tab-item {
+    background: var(--white);
+    border: 1px solid var(--slate-100);
+    border-radius: 18px;
+    padding: 16px 18px;
+    color: var(--slate-700);
+    font-weight: 700;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+}
+
+.tab-item.active {
+    background: linear-gradient(135deg, var(--primary-light), rgba(255,255,255,0.95));
+    border-color: var(--primary);
+    color: var(--primary-dark);
+    box-shadow: var(--shadow-sm);
+}
+
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+
+.recovery-grid {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 30px;
+}
+
+.recovery-card {
+    background: var(--snow);
+    border: 1px solid var(--slate-100);
+    border-radius: 24px;
+    padding: 24px;
+    box-shadow: var(--shadow-sm);
+}
+
+.recovery-result { margin-top: 40px; }
+
+.recovery-chip {
+    display: inline-flex;
+    align-items: center;
+    padding: 10px 14px;
+    border-radius: 999px;
+    background: var(--primary-light);
+    color: var(--primary-dark);
+    font-size: 0.85rem;
+    font-weight: 700;
+}
+
+@media (max-width: 1024px) {
+    .recovery-grid { grid-template-columns: 1fr; }
+}
+
 /* 9. ANATOMIA E BIOMECÂNICA */
 .anatomy-section { padding: 60px; margin-bottom: 80px; }
 .anatomy-grid { display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 50px; }

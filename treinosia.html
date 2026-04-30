@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BIOWINGER OS v4.0 - Football Performance Lab</title>
+    <title>BIOWINGER OS v4.0 - Treinos de Resistência, Força e Qualidade</title>
     
     <!-- Fonts -->
     <link href="https://googleapis.com" rel="stylesheet">
@@ -36,344 +36,738 @@
     <main class="container">
         <!-- HERO -->
         <section class="hero-section">
-            <div class="status-indicator"><div class="pulse-dot"></div>IA DE PREVENÇÃO E PERFORMANCE ATIVA</div>
-            <h1>Otimize seu <span class="text-gradient">Jogo.</span><br>Treine com Ciência.</h1>
-            <p style="max-width: 600px; color: var(--slate-500); margin-top: 20px; font-weight: 500;">
-                O BIOWINGER OS gera protocolos de treinamento baseados na demanda metabólica e biomecânica de cada posição no futebol moderno.
+            <div class="status-indicator"><div class="pulse-dot"></div>IA de Treinos Multi-Foco</div>
+            <h1>Resistência, Força e Qualidade em um único protocolo</h1>
+            <p style="max-width: 700px; color: var(--slate-500); margin-top: 20px; font-weight: 500;">
+                Configure foco, intensidade e qualidade de movimento para receber um treino adaptado à posição, ao desgaste e ao objetivo do atleta.
             </p>
         </section>
 
         <!-- DASHBOARD GRID -->
         <div class="clinical-grid">
-            
             <!-- CONFIG PANEL -->
             <div class="glass card-shadow">
-                <h2 style="margin-bottom: 30px; letter-spacing: -1px;">Parâmetros do Atleta</h2>
+                <h2 style="margin-bottom: 30px; letter-spacing: -1px;">Parâmetros do Treino</h2>
                 <form id="trainerForm">
-                    <div class="input-field">
-                        <label>POSIÇÃO TÁTICA</label>
-                        <select id="posicao">
-                            <option value="GK">GOLEIRO (REATIVIDADE/EXPLOSÃO)</option>
-                            <option value="DEF">ZAGUEIRO (FORÇA/ESTABILIDADE)</option>
-                            <option value="MID">MEIO-CAMPO (RESISTÊNCIA/GIRO)</option>
-                            <option value="WG">PONTA (VELOCIDADE/DRIBLE)</option>
-                            <option value="ST">ATACANTE (PIVÔ/FINALIZAÇÃO)</option>
-                        </select>
-                    </div>
-
-                    <div class="input-field">
-                        <label>NÍVEL DE INTENSIDADE DESEJADO</label>
-                        <select id="nivel">
-                            <option value="low">RECUPERAÇÃO ATIVA</option>
-                            <option value="med" selected>MANUTENÇÃO DE TEMPORADA</option>
-                            <option value="high">ALTA PERFORMANCE (PRÉ-JOGO)</option>
-                        </select>
-                    </div>
-
-                    <div style="margin: 40px 0;">
-                        <div style="display: flex; justify-content: space-between; margin-bottom: 15px;">
-                            <label style="font-size: 0.8rem; font-weight: 800; color: var(--slate-500);">FADIGA MUSCULAR (0-10)</label>
-                            <span id="fadigaLabel" style="background: var(--slate-900); color: white; padding: 2px 10px; border-radius: 6px; font-weight: 800;">0</span>
+                    <div class="form-row">
+                        <div class="input-field">
+                            <label>OBJETIVO DE TREINO</label>
+                            <select id="goalInput">
+                                <option value="resistencia">Resistência</option>
+                                <option value="forca">Força</option>
+                                <option value="qualidade">Qualidade Técnica</option>
+                                <option value="recuperacao">Recuperação</option>
+                            </select>
                         </div>
-                        <input type="range" id="fadigaSlider" min="0" max="10" value="0" class="styled-slider">
+                        <div class="input-field">
+                            <label>POSIÇÃO TÁTICA</label>
+                            <select id="posicao">
+                                <option value="GK">GOLEIRO</option>
+                                <option value="DEF">ZAGUEIRO</option>
+                                <option value="MID">MEIO-CAMPO</option>
+                                <option value="WG">PONTA</option>
+                                <option value="ST">ATACANTE</option>
+                            </select>
+                        </div>
                     </div>
 
-                    <button type="submit" style="width: 100%; padding: 20px; border-radius: 16px; border: none; background: var(--primary); color: white; font-weight: 800; cursor: pointer; font-size: 1rem; box-shadow: 0 10px 20px rgba(46, 204, 113, 0.3);">GERAR PROTOCOLO IA</button>
+                    <div class="form-row">
+                        <div class="input-field">
+                            <label>NÍVEL DE INTENSIDADE</label>
+                            <select id="nivel">
+                                <option value="low">Baixa Intensidade</option>
+                                <option value="med" selected>Média Intensidade</option>
+                                <option value="high">Alta Intensidade</option>
+                            </select>
+                        </div>
+                        <div class="input-field">
+                            <label>QUALIDADE DE MOVIMENTO</label>
+                            <div class="slider-box">
+                                <div class="slider-info">
+                                    <span class="input-label">Precisão Técnica</span>
+                                    <span id="qualityLabel" class="pain-badge">5 / 10</span>
+                                </div>
+                                <input type="range" id="qualityInput" min="0" max="10" value="5" class="styled-slider">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="input-field">
+                        <label>FADIGA MUSCULAR</label>
+                        <div class="slider-box">
+                            <div class="slider-info">
+                                <span class="input-label">Estado de desgaste</span>
+                                <span id="fadigaLabel" class="pain-badge">0 / 10</span>
+                            </div>
+                            <input type="range" id="fadigaSlider" min="0" max="10" value="0" class="styled-slider">
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-primary" style="width: 100%; margin-top: 12px;">Gerar Protocolo Inteligente</button>
                 </form>
             </div>
 
-            <!-- TERMINAL PANEL -->
+            <!-- PROTOCOL SUMMARY -->
             <div class="glass card-shadow" style="background: var(--white); display: flex; flex-direction: column;">
-                <h3 style="font-size: 0.9rem; margin-bottom: 20px; color: var(--slate-500);">SISTEMA DE ANÁLISE NEURAL</h3>
-                <div id="logContainer" style="flex: 1; overflow-y: auto; max-height: 400px;">
-                    <div class="log-entry">Aguardando definição de posição...</div>
+                <h3 style="font-size: 0.95rem; margin-bottom: 20px; color: var(--slate-500);">Resumo do Protocolo</h3>
+                <div class="summary-panel">
+                    <div>
+                        <h2 id="protocolTitle" style="margin-bottom: 10px; font-size: 1.4rem;">Aguardando parâmetros</h2>
+                        <p id="protocolSubtitle" style="color: var(--slate-600);">Selecione objetivo, posição e intensidade para visualizar o perfil do treino.</p>
+                    </div>
+                    <div class="stat-bar" style="justify-content: flex-end; align-items: center;">
+                        <span class="stat-pill" id="goalChip">Foco: -</span>
+                        <span class="stat-pill" id="intensityChip">Intensidade: -</span>
+                        <span class="stat-pill" id="fatigueChip">Fadiga: 0</span>
+                    </div>
+                </div>
+                <div id="logContainer" class="log-list" style="margin-top: 20px; max-height: 340px; overflow-y: auto;">
+                    <div class="log-entry">Aguardando parâmetros iniciais...</div>
                 </div>
             </div>
         </div>
 
-        <!-- WORKOUT SECTION -->
-        <section id="trainingOutput">
-            <h2 style="margin-bottom: 40px; font-size: 2.2rem; letter-spacing: -1.5px;">Protocolo de <span class="text-gradient">Treinamento Gerado</span></h2>
-            <div id="exerciseList">
-                <!-- Injetado via JS -->
+        <!-- RESULT SECTION -->
+        <section id="trainingOutput" style="display:none; margin-top: 40px;">
+            <div class="summary-panel" style="padding: 26px; margin-bottom: 30px;">
+                <div>
+                    <h2 id="outputTitle" style="margin-bottom: 12px;">Protocolo criado</h2>
+                    <p id="outputDescription" style="color: var(--slate-500);">Abaixo estão os blocos de treino que dialogam com seu objetivo e os níveis de fadiga/qualidade.</p>
+                </div>
+                <div class="stat-bar" style="justify-content: flex-end;">
+                    <span class="stat-pill" id="outputGoal">Meta</span>
+                    <span class="stat-pill" id="outputMode">Modo</span>
+                </div>
             </div>
+            <div id="exerciseList" class="exercise-grid"></div>
         </section>
     </main>
     <div class="nav-back">
         <a href="main.html" class="btn-nav">← Voltar ao Laboratório</a>
     </div>
     <script>
-        // --- DATA ENGINE (MÁXIMA QUANTIDADE DE EXERCÍCIOS) ---
-        const EXERCISES = {
-            GK: [
-                {
-                    name: "Salto Lateral Pliométrico",
-                    sets: "4 x 8 Repetições",
-                    bio: "Treina o Ciclo de Alongamento-Encurtamento (CEA) para defesas explosivas.",
-                    steps: [
-                        "Fique em posição de expectativa (joelhos levemente flexionados).",
-                        "Salte lateralmente com o máximo de força possível.",
-                        "Aterrisse com a ponta dos pés e absorva o impacto.",
-                        "Repita para o outro lado sem pausa."
-                    ]
-                },
-                {
-                    name: "Prancha 'Dead-Bug' Dinâmica",
-                    sets: "3 x 12 Repetições",
-                    bio: "Fortalece o core e a dissociação de membros, vital para quedas controladas.",
-                    steps: [
-                        "Deitado de costas, levante braços e pernas em 90 graus.",
-                        "Lentamente, desça o braço direito e a perna esquerda até quase tocar o chão.",
-                        "Mantenha a lombar colada ao solo o tempo todo.",
-                        "Retorne e alterne os lados."
-                    ]
-                },
-                {
-                    name: "Flexão Reativa com Toque no Ombro",
-                    sets: "3 x 10 Repetições",
-                    bio: "Estabilidade de ombro e potência de empurre para espalmar bolas.",
-                    steps: [
-                        "Faça uma flexão explosiva subindo rápido.",
-                        "No topo, toque o ombro oposto com uma mão, mantendo o quadril estável.",
-                        "Não deixe o corpo girar durante o toque.",
-                        "Controle a descida."
-                    ]
-                }
-            ],
-            DEF: [
-                {
-                    name: "Agachamento Búlgaro",
-                    sets: "4 x 10 Repetições",
-                    bio: "Desenvolve força unilateral massiva para ganhar disputas de corpo.",
-                    steps: [
-                        "Apoie um pé atrás em uma cadeira ou sofá.",
-                        "Mantenha o peito aberto e o peso no calcanhar do pé da frente.",
-                        "Desça até o joelho de trás quase tocar o chão.",
-                        "Suba empurrando o chão com força total."
-                    ]
-                },
-                {
-                    name: "Ponte de Glúteo Unilateral",
-                    sets: "3 x 15 Repetições",
-                    bio: "Prevenção de lesão de posterior e potência de arranque.",
-                    steps: [
-                        "Deitado, apoie apenas um calcanhar no chão.",
-                        "Eleve o quadril até alinhar coxa e tronco.",
-                        "Aperte o glúteo no topo por 1 segundo.",
-                        "Desça devagar."
-                    ]
-                },
-                {
-                    name: "Prancha Lateral com Elevação de Perna",
-                    sets: "3 x 10 cada lado",
-                    bio: "Estabilidade lateral para marcação individual e mudanças de direção.",
-                    steps: [
-                        "Fique em prancha lateral sobre o cotovelo.",
-                        "Mantenha o corpo reto como uma linha.",
-                        "Abra a perna de cima como uma tesoura.",
-                        "Mantenha o controle na descida."
-                    ]
-                }
-            ],
-            MID: [
-                {
-                    name: "Burpees com Salto 180º",
-                    sets: "4 x 12 Repetições",
-                    bio: "Resistência cardiovascular e percepção espacial para giros em campo.",
-                    steps: [
-                        "Realize um burpee completo tocando o peito no chão.",
-                        "Ao subir, salte girando o corpo 180 graus no ar.",
-                        "Aterrisse suavemente e já inicie a próxima repetição.",
-                        "Simula a transição defesa-ataque."
-                    ]
-                },
-                {
-                    name: "Afundo Reversa com Rotação",
-                    sets: "3 x 12 Repetições",
-                    bio: "Mobilidade tóraco-lombar essencial para passes longos e lançamentos.",
-                    steps: [
-                        "Dê um passo longo para trás em afundo.",
-                        "Com as mãos à frente, gire o tronco sobre a perna que ficou na frente.",
-                        "Mantenha o olhar no horizonte.",
-                        "Retorne à posição inicial com equilíbrio."
-                    ]
-                },
-                {
-                    name: "Mountain Climbers 'Sprint'",
-                    sets: "4 x 45 Segundos",
-                    bio: "Simula o sprint de alta intensidade sob fadiga ácida.",
-                    steps: [
-                        "Posição de flexão, braços travados.",
-                        "Puxe os joelhos em direção ao peito alternadamente o mais rápido possível.",
-                        "Mantenha o quadril baixo (não deixe subir).",
-                        "Mantenha a respiração constante."
-                    ]
-                }
-            ],
-            WG: [
-                {
-                    name: "Skater Jumps (Saltos de Patinador)",
-                    sets: "5 x 12 Repetições",
-                    bio: "Poder de corte e drible lateral explosivo.",
-                    steps: [
-                        "Salte para o lado caindo em um pé só, joelho flexionado.",
-                        "A outra perna passa por trás para equilíbrio.",
-                        "Imediatamente salte para o outro lado o mais longe possível.",
-                        "Foco em distância e velocidade."
-                    ]
-                },
-                {
-                    name: "Elevação de Panturrilha Unilateral",
-                    sets: "4 x 20 Repetições",
-                    bio: "Fortalecimento do tornozelo para o primeiro passo de aceleração.",
-                    steps: [
-                        "Apoie em um degrau com apenas uma parte do pé.",
-                        "Suba o máximo possível na ponta do pé.",
-                        "Desça o calcanhar abaixo do nível do degrau para alongar.",
-                        "Movimento controlado e rítmico."
-                    ]
-                },
-                {
-                    name: "Prancha Abdominal 'Serrote'",
-                    sets: "3 x 45 Segundos",
-                    bio: "Anti-extensão de coluna para manter a postura durante o sprint máximo.",
-                    steps: [
-                        "Em prancha de cotovelos, empurre o corpo para frente e para trás.",
-                        "O movimento deve vir apenas dos tornozelos e ombros.",
-                        "Mantenha o abdômen contraído ao extremo.",
-                        "Não deixe a lombar selar."
-                    ]
-                }
-            ],
-            ST: [
-                {
-                    name: "Salto Vertical com Agachamento",
-                    sets: "5 x 6 Repetições",
-                    bio: "Potência de impulsão para cabeceios e ganhos de primeira bola.",
-                    steps: [
-                        "Agache até a metade do caminho para carregar as pernas.",
-                        "Exploda para cima tentando tocar o teto.",
-                        "Aterrisse silenciosamente como um gato.",
-                        "Resete por 2 segundos entre saltos para máxima qualidade."
-                    ]
-                },
-                {
-                    name: "Flexão de Braços com Explosão",
-                    sets: "4 x 10 Repetições",
-                    bio: "Força de tronco para proteção de bola contra defensores.",
-                    steps: [
-                        "Desça a flexão devagar em 3 segundos.",
-                        "Suba com tanta força que suas mãos quase saiam do chão.",
-                        "Mantenha o core rígido como uma tábua.",
-                        "Cotovelos em 45 graus em relação ao corpo."
-                    ]
-                },
-                {
-                    name: "Cossack Squat (Agachamento Lateral)",
-                    sets: "3 x 12 Repetições",
-                    bio: "Mobilidade e força em ângulos extremos para finalizações acrobáticas.",
-                    steps: [
-                        "Pés bem afastados, agache para um lado mantendo a outra perna esticada.",
-                        "O calcanhar da perna esticada pode girar para cima.",
-                        "Mantenha o tronco o mais vertical possível.",
-                        "Alterne os lados com controle."
-                    ]
-                }
-            ]
+        const GOAL_LABELS = {
+            resistencia: 'Resistência',
+            forca: 'Força',
+            qualidade: 'Qualidade Técnica',
+            recuperacao: 'Recuperação'
         };
 
-        // --- UI LOGIC ---
+        const INTENSITY_LABELS = {
+            low: 'Baixa',
+            med: 'Média',
+            high: 'Alta'
+        };
 
-        // Loader disappearance
+        const WORKOUT_BANK = {
+            resistencia: {
+                GK: [
+                    {
+                        name: 'Circuito de Ombros Dinâmico',
+                        sets: '3 x 12',
+                        focus: 'Resistência de estabilização',
+                        bio: 'Melhora a resistência de ombro e core para suportar várias defesas seguidas.',
+                        steps: [
+                            'Faça rotações lentas dos ombros mantendo o core firme.',
+                            'Desloque-se lateralmente em pequenos passos.',
+                            'Volte ao centro e repita com postura neutra.'
+                        ]
+                    },
+                    {
+                        name: 'Pliometria Leve de Reação',
+                        sets: '4 x 8',
+                        focus: 'Tempo de reação',
+                        bio: 'Treina explosão leve para manter prontidão ao longo do jogo.',
+                        steps: [
+                            'Salte para os dois lados com pouso suave.',
+                            'Mantenha o peito ereto e o olhar à frente.',
+                            'Concentre-se em transição rápida sem bater os pés.'
+                        ]
+                    }
+                ],
+                DEF: [
+                    {
+                        name: 'Passadas de Resistência',
+                        sets: '4 x 10 cada perna',
+                        focus: 'Força endurada',
+                        bio: 'Aumenta a capacidade de manter disputas e ações de cobertura por mais tempo.',
+                        steps: [
+                            'Avance em passada longa mantendo o tronco firme.',
+                            'Desça até que o joelho traseiro fique próximo ao chão.',
+                            'Volte conduzindo o calcanhar do pé de apoio.'
+                        ]
+                    },
+                    {
+                        name: 'Remada Curvada Sustentada',
+                        sets: '3 x 15',
+                        focus: 'Core e costas',
+                        bio: 'Melhora a resistência de sustentação do tronco durante jogos intensos.',
+                        steps: [
+                            'Incline o tronco à frente mantendo coluna neutra.',
+                            'Puxe os cotovelos para trás de forma controlada.',
+                            'Retorne à posição inicial sem quebrar a postura.'
+                        ]
+                    }
+                ],
+                MID: [
+                    {
+                        name: 'Prancha com Escalada Lenta',
+                        sets: '3 x 30s',
+                        focus: 'Resistência de core',
+                        bio: 'Base sólida para suportar trocas rápidas e passes sob cansaço.',
+                        steps: [
+                            'Mantenha a prancha enquanto leva um joelho ao peito.',
+                            'Alterne lentamente os lados.',
+                            'Não deixe o quadril cair ou subir demais.'
+                        ]
+                    },
+                    {
+                        name: 'Circuito de Deslocamento Controlado',
+                        sets: '4 x 40s',
+                        focus: 'Resistência aeróbica',
+                        bio: 'Condiciona o corpo para tomar decisões sob fadiga.',
+                        steps: [
+                            'Faça deslocamentos laterais e frente/atrás de forma contínua.',
+                            'Mantenha a postura ereta e respiração cadenciada.',
+                            'Recupere com passo leve ao final de cada série.'
+                        ]
+                    }
+                ],
+                WG: [
+                    {
+                        name: 'Deslocamento em Zig-Zag de Baixa Carga',
+                        sets: '5 x 20m',
+                        focus: 'Resistência de aceleração',
+                        bio: 'Melhora a capacidade de manter repetidos cortes e arrancadas.',
+                        steps: [
+                            'Corra em ziguezague com velocidade controlada.',
+                            'Mantenha o centro de massa baixo na curva.',
+                            'Recupere com trote leve entre as passadas.'
+                        ]
+                    },
+                    {
+                        name: 'Sprint Submáximo + Retorno',
+                        sets: '4 x 25m',
+                        focus: 'Capacidade de repetição',
+                        bio: 'Desenvolve velocidade sustentável sem saturar o sistema nervoso.',
+                        steps: [
+                            'Acelere a 80% de sua capacidade.',
+                            'Volte caminhando como recuperação ativa.',
+                            'Mantenha as mãos relaxadas e ombros leves.'
+                        ]
+                    }
+                ],
+                ST: [
+                    {
+                        name: 'Salto Vertical com Controles',
+                        sets: '4 x 6',
+                        focus: 'Resistência de potência',
+                        bio: 'Aprimora a capacidade de produzir força repetida em situações de jogo.',
+                        steps: [
+                            'Salte verticalmente com impulso controlado.',
+                            'Aterre suavemente e mantenha postura neutra.',
+                            'Cadencie as repetições sem acelerar demais.'
+                        ]
+                    },
+                    {
+                        name: 'Circuito de Agilidade Sustentada',
+                        sets: '3 x 45s',
+                        focus: 'Resistência técnica',
+                        bio: 'Faz o jogador manter velocidade e controle até o final da série.',
+                        steps: [
+                            'Execute mudanças de direção em ritmo constante.',
+                            'Mantenha o tronco estável e os passos curtos.',
+                            'Respire de forma ritmada e relaxada.'
+                        ]
+                    }
+                ]
+            },
+            forca: {
+                GK: [
+                    {
+                        name: 'Press Militar Assistido',
+                        sets: '4 x 8',
+                        focus: 'Força de ombro',
+                        bio: 'Melhora a força para movimentos explosivos de alcance.',
+                        steps: [
+                            'Empurre o ponto de apoio acima da cabeça.',
+                            'Retorne com controle e mantenha o core ativado.',
+                            'Repita sem trancar os cotovelos.'
+                        ]
+                    },
+                    {
+                        name: 'Ponte de Glúteo com Sustentação',
+                        sets: '4 x 12',
+                        focus: 'Força posterior',
+                        bio: 'Aumenta potência para saltos e deslocamentos defensivos.',
+                        steps: [
+                            'Eleve o quadril mantendo ambos os pés no chão.',
+                            'Segure o topo por 2 segundos antes de descer.',
+                            'Controle a descida sem peso excessivo no joelho.'
+                        ]
+                    }
+                ],
+                DEF: [
+                    {
+                        name: 'Agachamento Frontal',
+                        sets: '4 x 8',
+                        focus: 'Força de perna',
+                        bio: 'Constrói estabilidade para disputas de corpo e sustentação de marcação.',
+                        steps: [
+                            'Desça até o quadril estar paralelo ao chão.',
+                            'Empurre o chão com os calcanhares para subir.',
+                            'Mantenha o peito aberto o tempo todo.'
+                        ]
+                    },
+                    {
+                        name: 'Remada Inclinada',
+                        sets: '4 x 10',
+                        focus: 'Força dorsal',
+                        bio: 'Aumenta a força de puxada necessária para contenção e progressão.',
+                        steps: [
+                            'Puxe o corpo para cima mantendo o tronco estável.',
+                            'Baixe com controle até estender totalmente os braços.',
+                            'Não permita rotação do ombro.'
+                        ]
+                    }
+                ],
+                MID: [
+                    {
+                        name: 'Deadlift Adaptado',
+                        sets: '4 x 8',
+                        focus: 'Força global',
+                        bio: 'Fortalece a cadeia posterior e melhora a capacidade de sustentar esforço.',
+                        steps: [
+                            'Mantenha a coluna neutra e os ombros retraídos.',
+                            'Suba com força dos isquiotibiais e glúteos.',
+                            'Desça com postura alinhada e controle.'
+                        ]
+                    },
+                    {
+                        name: 'Remada Unilateral',
+                        sets: '4 x 10',
+                        focus: 'Força de costas',
+                        bio: 'Equilibra a força do tronco e previne assimetrias.',
+                        steps: [
+                            'Puxe o cotovelo em direção ao tronco.',
+                            'Mantenha o ombro baixo e estável.',
+                            'Controle a fase excêntrica.'
+                        ]
+                    }
+                ],
+                WG: [
+                    {
+                        name: 'Avanço Explosivo com Peso',
+                        sets: '4 x 8',
+                        focus: 'Força de aceleração',
+                        bio: 'Aumenta a potência do primeiro passo sem sacrificar a técnica.',
+                        steps: [
+                            'Dê uma passada à frente mantendo o tronco estável.',
+                            'Empurre com força para retornar.',
+                            'Mantenha o eixo do corpo alinhado.'
+                        ]
+                    },
+                    {
+                        name: 'Ponte Lateral com Elevação',
+                        sets: '3 x 12',
+                        focus: 'Força lateral',
+                        bio: 'Melhora a capacidade de sustentar cortes e dribles com segurança.',
+                        steps: [
+                            'Segure a prancha lateral e eleve o quadril.',
+                            'Mantenha o corpo em linha reta.',
+                            'Controle o movimento de subida e descida.'
+                        ]
+                    }
+                ],
+                ST: [
+                    {
+                        name: 'Salto Profundo',
+                        sets: '5 x 6',
+                        focus: 'Força de pernas',
+                        bio: 'Desenvolve potência para jogadas decisivas na área.',
+                        steps: [
+                            'Salte do chão com explosão.',
+                            'Aterre com controle e mantenha o equilíbrio.',
+                            'Retorne lentamente para a próxima repetição.'
+                        ]
+                    },
+                    {
+                        name: 'Flexão Pliométrica',
+                        sets: '4 x 8',
+                        focus: 'Força de tronco',
+                        bio: 'Aumenta a capacidade de proteger fluxo de bola e contato físico.',
+                        steps: [
+                            'Execute a flexão normalmente.',
+                            'Empurre com força e impulsione o corpo levemente.',
+                            'Aterre suavemente e controle a descida.'
+                        ]
+                    }
+                ]
+            },
+            qualidade: {
+                GK: [
+                    {
+                        name: 'Saída de Bola Precisa',
+                        sets: '3 x 10',
+                        focus: 'Técnica de passe',
+                        bio: 'Treina a precisão e a tomada de decisão na distribuição de bola.',
+                        steps: [
+                            'Receba a bola com a postura ereta.',
+                            'Observe o espaço antes de passar.',
+                            'Execute o passe com toque firme e direção certa.'
+                        ]
+                    },
+                    {
+                        name: 'Reação Em Linha',
+                        sets: '3 x 12',
+                        focus: 'Tempo de saída',
+                        bio: 'Melhora a leitura de jogo e o tempo de interceptação.',
+                        steps: [
+                            'Movimente-se em direção ao alvo rapidamente.',
+                            'Finalize com toque preciso.',
+                            'Volte à posição inicial com controle.'
+                        ]
+                    }
+                ],
+                DEF: [
+                    {
+                        name: 'Bloqueio de Passe Técnico',
+                        sets: '4 x 8',
+                        focus: 'Tempo de marcação',
+                        bio: 'Refina a técnica defensiva para interceptar sem falta.',
+                        steps: [
+                            'Identifique a linha de passe.',
+                            'Desloque o corpo para bloquear o espaço.',
+                            'Mantenha controle e não force demais a perna.'
+                        ]
+                    },
+                    {
+                        name: 'Entrega Curta Sob Pressão',
+                        sets: '3 x 12',
+                        focus: 'Passe curto',
+                        bio: 'Treina a saída limpa e a manutenção da posse em transição.',
+                        steps: [
+                            'Domine a bola com toque curto e seguro.',
+                            'Busque um companheiro imaginário.',
+                            'Execute o passe em ritmo constante.'
+                        ]
+                    }
+                ],
+                MID: [
+                    {
+                        name: 'Controle em Espaço Reduzido',
+                        sets: '3 x 45s',
+                        focus: 'Toque e tomada de decisão',
+                        bio: 'Aumenta a precisão do passe e domínio em situações apertadas.',
+                        steps: [
+                            'Mantenha a bola próxima ao pé.',
+                            'Faça passes curtos com rapidez controlada.',
+                            'Movimente-se a cada toque.'
+                        ]
+                    },
+                    {
+                        name: 'Passe Direcionado Dinâmico',
+                        sets: '4 x 10',
+                        focus: 'Visão de jogo',
+                        bio: 'Melhora a precisão e o peso do passe em diferentes deslocamentos.',
+                        steps: [
+                            'Levante a cabeça antes de passar.',
+                            'Escolha o alvo e ajuste a força do passe.',
+                            'Mantenha o corpo equilibrado durante a execução.'
+                        ]
+                    }
+                ],
+                WG: [
+                    {
+                        name: 'Finalização com Controle',
+                        sets: '4 x 8',
+                        focus: 'Precisão de chute',
+                        bio: 'Aprimora a qualidade técnica do chute em velocidade.',
+                        steps: [
+                            'Aproxime-se com ritmo constante.',
+                            'Mantenha o corpo sobre a bola.',
+                            'Finalize visando um ponto específico.'
+                        ]
+                    },
+                    {
+                        name: 'Drible Preso',
+                        sets: '3 x 30s',
+                        focus: 'Condução de bola',
+                        bio: 'Refina o toque com proteção da bola em pequenos espaços.',
+                        steps: [
+                            'Mantenha a bola próxima ao pé.',
+                            'Faça mudanças de direção rápidas e controladas.',
+                            'Use o corpo para proteger a bola do defensor imaginário.'
+                        ]
+                    }
+                ],
+                ST: [
+                    {
+                        name: 'Movimento de Pivô Técnico',
+                        sets: '3 x 10',
+                        focus: 'Proteção de bola',
+                        bio: 'Melhora a técnica de pivo avançando e girando com controle.',
+                        steps: [
+                            'Use um pé para pivô e mantenha o marcador atrás.',
+                            'Gire com o outro pé em apoio.',
+                            'Saia em direção ao espaço com equilíbrio.'
+                        ]
+                    },
+                    {
+                        name: 'Finalização de Primeira',
+                        sets: '4 x 6',
+                        focus: 'Qualidade de chute',
+                        bio: 'Treina a execução de finalização com controle e precisão.',
+                        steps: [
+                            'Receba a bola e prepare o pé de apoio.',
+                            'Mantenha o olhar no alvo.',
+                            'Finalize com toque firme e direção precisa.'
+                        ]
+                    }
+                ]
+            },
+            recuperacao: {
+                GK: [
+                    {
+                        name: 'Alongamento de Ombro Ativo',
+                        sets: '3 x 12',
+                        focus: 'Recuperação',
+                        bio: 'Melhora a amplitude de movimento sem estresse articular.',
+                        steps: [
+                            'Realize movimentos suaves de rotação do ombro.',
+                            'Mantenha o tronco imóvel.',
+                            'Respire de forma constante e profunda.'
+                        ]
+                    },
+                    {
+                        name: 'Prancha Estável',
+                        sets: '3 x 30s',
+                        focus: 'Estabilidade',
+                        bio: 'Ativa o core sem impacto para recuperação ativa.',
+                        steps: [
+                            'Mantenha a posição de prancha com coluna neutra.',
+                            'Respire lentamente e evite tensão no pescoço.',
+                            'Não deixe o quadril cair.'
+                        ]
+                    }
+                ],
+                DEF: [
+                    {
+                        name: 'Ponte de Glúteo Suave',
+                        sets: '3 x 15',
+                        focus: 'Reabilitação',
+                        bio: 'Ativa a cadeia posterior com controle e suporte lombar.',
+                        steps: [
+                            'Eleve o quadril mantendo os pés firmes no chão.',
+                            'Segure por 2 segundos e desça lentamente.',
+                            'Mantenha os joelhos alinhados com os quadris.'
+                        ]
+                    },
+                    {
+                        name: 'Marcha Lateral Controlada',
+                        sets: '4 x 20m',
+                        focus: 'Propriocepção',
+                        bio: 'Melhora o apoio do pé e a estabilidade do joelho.',
+                        steps: [
+                            'Caminhe lateralmente com passos curtos.',
+                            'Mantenha o core ativado.',
+                            'Controle cada passo sem acelerar.'
+                        ]
+                    }
+                ],
+                MID: [
+                    {
+                        name: 'Alongamento Ativo de Posterior',
+                        sets: '3 x 8',
+                        focus: 'Liberação',
+                        bio: 'Reduz tensão muscular com leve ativação.',
+                        steps: [
+                            'Incline-se lentamente com pernas semi-flexionadas.',
+                            'Sinta o alongamento sem forçar.',
+                            'Retorne com postura alinhada.'
+                        ]
+                    },
+                    {
+                        name: 'Prancha com Toque de Ombro',
+                        sets: '3 x 10',
+                        focus: 'Estabilidade',
+                        bio: 'Ativa o core e melhora a coordenação em recuperação.',
+                        steps: [
+                            'Mantenha a prancha firme.',
+                            'Toque cada ombro alternadamente sem girar o tronco.',
+                            'Resete a posição entre os toques.'
+                        ]
+                    }
+                ],
+                WG: [
+                    {
+                        name: 'Troca de Direção Suave',
+                        sets: '4 x 20m',
+                        focus: 'Mobilidade',
+                        bio: 'Mantém o corpo ativo sem estresse, ideal para recuperação.',
+                        steps: [
+                            'Realize mudanças de direção com passos lentos.',
+                            'Mantenha o tronco estável e pés alinhados.',
+                            'Recupere com caminhada no final de cada segmento.'
+                        ]
+                    },
+                    {
+                        name: 'Extensão de Quadril Controlada',
+                        sets: '3 x 12',
+                        focus: 'Liberação',
+                        bio: 'Reabilita o quadril e alivia a tensão antes da próxima sessão.',
+                        steps: [
+                            'Faça movimentos suaves de extensão do quadril.',
+                            'Segure a posição por 1 segundo.',
+                            'Retorne sem forçar.'
+                        ]
+                    }
+                ],
+                ST: [
+                    {
+                        name: 'Agachamento Isométrico Leve',
+                        sets: '3 x 30s',
+                        focus: 'Controle',
+                        bio: 'Fortalece pernas sem impacto e com foco em recuperação.',
+                        steps: [
+                            'Segure a posição de agachamento médio.',
+                            'Respire profunda e mantenha o tronco firme.',
+                            'Retorne lentamente.'
+                        ]
+                    },
+                    {
+                        name: 'Alongamento de Quadríceps Ativo',
+                        sets: '3 x 10',
+                        focus: 'Recuperação muscular',
+                        bio: 'Libera a parte frontal da coxa com estímulo leve.',
+                        steps: [
+                            'Puxe o tornozelo em direção ao glúteo.',
+                            'Mantenha o peito aberto.',
+                            'Sinta a leve tensão sem dor.'
+                        ]
+                    }
+                ]
+            }
+        };
+
         window.addEventListener('load', () => {
             setTimeout(() => {
                 document.getElementById('loader').style.opacity = '0';
                 setTimeout(() => document.getElementById('loader').style.display = 'none', 600);
-            }, 1000);
+            }, 800);
         });
 
-        const slider = document.getElementById('fadigaSlider');
-        const label = document.getElementById('fadigaLabel');
-        const logContainer = document.getElementById('logContainer');
+        const goalInput = document.getElementById('goalInput');
+        const posInput = document.getElementById('posicao');
+        const intensityInput = document.getElementById('nivel');
+        const fatigueSlider = document.getElementById('fadigaSlider');
+        const qualityInput = document.getElementById('qualityInput');
+        const fatigueLabel = document.getElementById('fadigaLabel');
+        const qualityLabel = document.getElementById('qualityLabel');
+        const logArea = document.getElementById('logContainer');
 
-        slider.oninput = function() {
-            label.innerHTML = this.value;
-            if(this.value > 7) label.style.background = 'var(--danger)';
-            else label.style.background = 'var(--slate-900)';
-        }
+        const protocolTitle = document.getElementById('protocolTitle');
+        const protocolSubtitle = document.getElementById('protocolSubtitle');
+        const goalChip = document.getElementById('goalChip');
+        const intensityChip = document.getElementById('intensityChip');
+        const fatigueChip = document.getElementById('fatigueChip');
+
+        const outputTitle = document.getElementById('outputTitle');
+        const outputDescription = document.getElementById('outputDescription');
+        const outputGoal = document.getElementById('outputGoal');
+        const outputMode = document.getElementById('outputMode');
 
         function addLog(text) {
             const entry = document.createElement('div');
             entry.className = 'log-entry';
-            entry.innerHTML = `<span style="font-size: 0.7rem; color: var(--slate-500); font-weight: 800;">[${new Date().toLocaleTimeString()}]</span><br>${text}`;
-            logContainer.prepend(entry);
+            entry.innerHTML = `<span style="font-size: 0.72rem; color: var(--slate-500); font-weight: 800;">[${new Date().toLocaleTimeString()}]</span><br>${text}`;
+            logArea.prepend(entry);
         }
 
-        // --- ENGINE LOGIC ---
+        function updateSliders() {
+            fatigueLabel.textContent = `${fatigueSlider.value} / 10`;
+            qualityLabel.textContent = `${qualityInput.value} / 10`;
+        }
+
+        fatigueSlider.oninput = updateSliders;
+        qualityInput.oninput = updateSliders;
+
         document.getElementById('trainerForm').onsubmit = function(e) {
             e.preventDefault();
-            const pos = document.getElementById('posicao').value;
-            const nivel = document.getElementById('nivel').value;
-            const fadiga = slider.value;
+            const goal = goalInput.value;
+            const position = posInput.value;
+            const intensity = intensityInput.value;
+            const fatigue = parseInt(fatigueSlider.value, 10);
+            const quality = parseInt(qualityInput.value, 10);
 
-            addLog(`Iniciando triagem para posição: ${pos}...`);
-            addLog(`Cruzando nível de fadiga ${fadiga}/10 com carga ${nivel}...`);
+            const goalLabel = GOAL_LABELS[goal];
+            const intensityLabel = INTENSITY_LABELS[intensity];
+            const recoveryMode = goal === 'recuperacao' || fatigue >= 8;
+            const modeLabel = recoveryMode ? 'Regenerativo' : goalLabel;
+
+            protocolTitle.textContent = `${goalLabel} / ${position}`;
+            protocolSubtitle.textContent = recoveryMode
+                ? 'Protocolo ajustado para recuperação com controle de carga e técnica limpa.'
+                : 'Sessão estruturada para montar resistência, força e qualidade sem perder eficiência.';
+            goalChip.textContent = `Foco: ${goalLabel}`;
+            intensityChip.textContent = `Intensidade: ${intensityLabel}`;
+            fatigueChip.textContent = `Fadiga: ${fatigue}/10`;
+
+            outputTitle.textContent = `${goalLabel} em Ação`;
+            outputDescription.textContent = `Plano para ${position} com intensidade ${intensityLabel.toLowerCase()} e qualidade ${quality}/10.`;
+            outputGoal.textContent = `Meta: ${goalLabel}`;
+            outputMode.textContent = `Modo: ${modeLabel}`;
+
+            addLog(`Protocolo solicitado: ${goalLabel} para ${position}.`);
+            addLog(`Cargas: ${intensityLabel}, Qualidade de movimento: ${quality}/10, Fadiga: ${fatigue}/10.`);
 
             setTimeout(() => {
-                renderExercises(pos, fadiga);
-                addLog(`Sucesso! Protocolo otimizado pronto.`);
+                renderExercises(goal, position, intensity, fatigue, quality);
+                addLog('Protocolo gerado com base em objetivo, intensidade e condição física.');
                 document.getElementById('trainingOutput').style.display = 'block';
-                window.scrollTo({ top: document.getElementById('trainingOutput').offsetTop - 100, behavior: 'smooth' });
-            }, 800);
+                document.getElementById('trainingOutput').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 600);
         };
 
-        function renderExercises(pos, fadiga) {
+        function renderExercises(goal, position, intensity, fatigue, quality) {
             const container = document.getElementById('exerciseList');
-            container.innerHTML = "";
-            let list = EXERCISES[pos];
-
-            // AI Adjustment for high fatigue
-            if (fadiga >= 8) {
-                addLog(`Fadiga ALTA detectada. Ajustando para modo Recuperação.`);
+            container.innerHTML = '';
+            const recoveryMode = goal === 'recuperacao' || fatigue >= 8;
+            let exercises = (WORKOUT_BANK[goal] || WORKOUT_BANK['resistencia'])[position] || WORKOUT_BANK[goal]['MID'];
+            if (!exercises || !exercises.length) {
+                exercises = WORKOUT_BANK['resistencia'][position] || WORKOUT_BANK['resistencia']['MID'];
             }
 
-            list.forEach(ex => {
-                const setsFinal = fadiga >= 8 ? "2 x 10 (Leve)" : ex.sets;
-                
+            exercises.forEach((exercise, index) => {
+                const setsFinal = recoveryMode ? '2 x 10 (Baixa Carga)' : exercise.sets;
+                const targetHint = quality >= 7 ? 'Movimento controlado e preciso' : 'Volume e consistência';
                 const card = document.createElement('div');
                 card.className = 'exercise-detail-card card-shadow';
                 card.innerHTML = `
                     <div>
-                        <span class="badge-pos">${pos} Protocol</span>
-                        <h3 style="font-size: 1.6rem; margin: 15px 0 10px; letter-spacing: -1px;">${ex.name}</h3>
-                        <p style="color: var(--primary-dark); font-weight: 800; font-size: 1.1rem; margin-bottom: 20px;">${setsFinal}</p>
-                        
-                        <div style="background: var(--primary-light); padding: 15px; border-radius: 15px; font-size: 0.85rem;">
-                            <strong style="display: block; margin-bottom: 5px; color: var(--primary-dark);">POR QUÊ FAZER?</strong>
-                            ${ex.bio}
+                        <span class="badge-pos">${GOAL_LABELS[goal]}</span>
+                        <h3 style="font-size: 1.5rem; margin: 15px 0 10px; letter-spacing: -1px;">${exercise.name}</h3>
+                        <p style="color: var(--primary-dark); font-weight: 800; font-size: 1.05rem; margin-bottom: 16px;">${setsFinal}</p>
+                        <div style="background: var(--primary-light); padding: 18px; border-radius: 18px; font-size: 0.9rem;">
+                            <strong style="display: block; margin-bottom: 8px; color: var(--primary-dark);">POR QUE FAZER?</strong>
+                            ${exercise.bio}
                         </div>
-
-                        <div class="anatomy-mini">
-                            <svg width="60" height="120" viewBox="0 0 60 120">
-                                <rect x="25" y="10" width="10" height="10" rx="5" fill="var(--slate-100)" />
-                                <rect x="20" y="25" width="20" height="40" rx="10" fill="var(--primary)" />
-                                <rect x="15" y="70" width="10" height="40" rx="5" fill="var(--primary-dark)" />
-                                <rect x="35" y="70" width="10" height="40" rx="5" fill="var(--primary-dark)" />
-                            </svg>
-                            <span style="font-size: 0.6rem; font-weight: 800; color: var(--slate-500); margin-left: 10px;">FOCO: MUSCULATURA ALVO</span>
+                        <div class="stat-bar" style="margin-top: 18px;">
+                            <span class="stat-pill">${exercise.focus}</span>
+                            <span class="stat-pill">${INTENSITY_LABELS[intensity]}</span>
+                            <span class="stat-pill">${targetHint}</span>
                         </div>
                     </div>
-
                     <div class="instruction-box">
-                        <h4 style="margin-bottom: 20px; font-size: 0.9rem; text-transform: uppercase; color: var(--slate-500); letter-spacing: 1px;">Guia de Execução Técnica</h4>
-                        ${ex.steps.map((step, i) => `
+                        <h4 style="margin-bottom: 18px; font-size: 0.9rem; text-transform: uppercase; color: var(--slate-500); letter-spacing: 1px;">Guia Técnico</h4>
+                        ${exercise.steps.map((step, idx) => `
                             <div class="instruction-step">
-                                <div class="step-number">${i+1}</div>
-                                <p>${step}</p>
+                                <div class="step-number">${idx + 1}</div>
+                                <p style="margin: 0; color: var(--slate-600);">${step}</p>
                             </div>
                         `).join('')}
-                        <div style="margin-top: 30px; border-top: 1px solid var(--slate-100); padding-top: 20px; font-style: italic; font-size: 0.8rem; color: var(--slate-500);">
-                            * Dica do Treinador: Mantenha a respiração cadenciada e o foco na qualidade do movimento, não na velocidade.
+                        <div style="margin-top: 20px; border-top: 1px solid var(--slate-100); padding-top: 18px; font-style: italic; font-size: 0.85rem; color: var(--slate-500);">
+                            ${recoveryMode ? 'Mantenha o movimento fluido e interrompa se houver dor aguda.' : 'Preserve a técnica, mantendo o padrão mesmo em volume maior.'}
                         </div>
                     </div>
                 `;
@@ -396,6 +790,7 @@
             <div class="footer-links">
                 <a href="treinosia.html">Treinos IA</a>
                 <a href="nutricao.html">Nutrição</a>
+                <a href="pdf.html">Relatório PDF</a>
             </div>
         </div>
         <div class="footer-bottom">© 2026 BioWinger OS — Todos os direitos reservados.</div>

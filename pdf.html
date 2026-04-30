@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BioWinger OS | Exportar PDF</title>
+    <link rel="preconnect" href="https://googleapis.com">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+    <nav class="main-nav">
+        <div class="nav-container">
+            <div class="brand" onclick="window.location.href='main.html'">
+                <div style="width: 35px; height: 35px; background: var(--primary); border-radius: 10px;"></div>
+                <div class="brand-text"><span class="title">BIOWINGER</span><span class="version-badge">EXPORT</span></div>
+            </div>
+            <ul class="nav-menu" id="mainMenu">
+                <li><a href="main.html">Painel Clínico</a></li>
+                <li><a href="treinosia.html">Treinos IA</a></li>
+                <li><a href="recuperacao.html">Recuperação</a></li>
+                <li><a href="nutricao.html">Nutrição</a></li>
+                <li><a href="pdf.html" style="color: var(--primary-dark); font-weight: 800;">Exportar PDF</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container" style="padding-top: 120px; padding-bottom: 60px;">
+        <section class="hero-section" style="text-align: left; padding-bottom: 30px;">
+            <div class="status-indicator"><div class="pulse-dot"></div>Exportador de Relatório Completo</div>
+            <h1>Compilar tudo que você já usou no site em um único PDF</h1>
+            <p style="max-width: 760px; color: var(--slate-500); margin-top: 20px; font-weight: 500;">
+                O relatório lê os dados salvos no navegador, captura o conteúdo das páginas principais e monta um documento com dieta, treino, recuperação, patologia e diretrizes clínicas.
+            </p>
+        </section>
+
+        <section class="glass card-shadow" style="padding: 40px; margin-bottom: 30px;">
+            <div style="display: grid; gap: 24px; max-width: 880px; margin: 0 auto;">
+                <div>
+                    <h2 style="font-size: 1.7rem; margin-bottom: 15px;">Relatório PDF Automático</h2>
+                    <p style="color: var(--slate-600); line-height: 1.8;">Clique em gerar para recolher as informações de todas as áreas do site. O arquivo inclui histórico clínico, protocolos de treino e detalhes nutricionais.</p>
+                </div>
+                <div style="display: flex; flex-wrap: wrap; gap: 16px;">
+                    <button id="generatePdfBtn" class="btn-primary" style="padding: 18px 30px;">Gerar PDF</button>
+                    <button id="downloadPdfBtn" class="btn-secondary" style="padding: 18px 30px; display:none;">Download do PDF</button>
+                </div>
+                <div class="info-card" style="background: var(--snow); border: 1px solid var(--slate-100); padding: 24px; border-radius: 24px;">
+                    <h3 style="margin-bottom: 14px;">O que será lido</h3>
+                    <ul style="line-height: 1.8; color: var(--slate-600);">
+                        <li>Dados de saúde e histórico de dor salvos no navegador.</li>
+                        <li>Conteúdo das páginas de Treinos, Nutrição, Recuperação e Análise.</li>
+                        <li>Estrutura de refeições, recomendações clínicas e exercícios sugeridos.</li>
+                        <li>Resumo de diagnósticos e diretrizes de recuperação.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="glass card-shadow" style="padding: 40px; margin-bottom: 30px;">
+            <h3 style="margin-bottom: 18px;">Pré-visualização do Relatório</h3>
+            <div id="pdfPreview" style="background: var(--white); border: 1px solid var(--slate-100); border-radius: 24px; padding: 24px; min-height: 240px; color: var(--slate-700); overflow:auto; white-space: pre-wrap;"></div>
+        </section>
+
+        <section class="glass card-shadow" style="padding: 40px;">
+            <h3 style="margin-bottom: 18px;">Registros de Processamento</h3>
+            <div id="fetchLog" style="background: var(--snow); border: 1px solid var(--slate-100); border-radius: 24px; padding: 20px; min-height: 160px; color: var(--slate-600); font-size: 0.95rem; white-space: pre-wrap; overflow:auto;"></div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer-grid">
+            <div>
+                <h3>BioWinger OS</h3>
+                <p>Exportação de relatórios multidisciplinares para apresentar a profissionais de saúde e performance.</p>
+            </div>
+            <div class="footer-links">
+                <a href="main.html">Painel Clínico</a>
+                <a href="treinosia.html">Treinos IA</a>
+                <a href="nutricao.html">Nutrição</a>
+            </div>
+            <div class="footer-links">
+                <a href="recuperacao.html">Recuperação</a>
+                <a href="pdf.html">Montar PDF</a>
+            </div>
+        </div>
+        <div class="footer-bottom">© 2026 BioWinger OS — Todos os direitos reservados.</div>
+    </footer>
+
+    <script>
+        const pagePaths = [
+            'main.html',
+            'treinosia.html',
+            'nutricao.html',
+            'recuperacao.html',
+            'pesquisa.html'
+        ];
+
+        const log = document.getElementById('fetchLog');
+        const preview = document.getElementById('pdfPreview');
+        const downloadBtn = document.getElementById('downloadPdfBtn');
+        let lastPdfBlob = null;
+
+        const appendLog = (message) => {
+            log.textContent += message + '\n';
+            log.scrollTop = log.scrollHeight;
+        };
+
+        const fetchPage = async (path) => {
+            appendLog(`Carregando ${path} ...`);
+            const response = await fetch(path, { cache: 'no-store' });
+            if (!response.ok) throw new Error(`Falha ao buscar ${path}: ${response.status}`);
+            const text = await response.text();
+            appendLog(`Conteúdo de ${path} carregado com sucesso.`);
+            return new DOMParser().parseFromString(text, 'text/html');
+        };
+
+        const getStoredHistory = () => {
+            try {
+                const history = JSON.parse(localStorage.getItem('bw_clinical_data') || '[]');
+                return Array.isArray(history) ? history : [];
+            } catch (err) {
+                appendLog('Erro ao ler histórico local: ' + err.message);
+                return [];
+            }
+        };
+
+        const extractTextSection = (doc, title) => {
+            const section = [];
+            if (!doc) return section;
+
+            const headings = Array.from(doc.querySelectorAll('h1, h2, h3')).slice(0, 6).map(el => el.textContent.trim()).filter(Boolean);
+            if (headings.length) section.push(`${title}: ${headings.join(' | ')}`);
+
+            const paragraphs = Array.from(doc.querySelectorAll('p')).slice(0, 6).map(el => el.textContent.trim()).filter(Boolean);
+            paragraphs.forEach((p) => section.push(p));
+
+            const tables = Array.from(doc.querySelectorAll('table')).slice(0, 2);
+            tables.forEach((table, index) => {
+                section.push(`Tabela ${index + 1}:`);
+                const rows = Array.from(table.querySelectorAll('tr')).slice(0, 5);
+                rows.forEach(row => {
+                    const cells = Array.from(row.querySelectorAll('th, td')).map(cell => cell.textContent.trim()).filter(Boolean);
+                    if (cells.length) section.push('  • ' + cells.join(' | '));
+                });
+            });
+
+            const specialIds = ['recoveryOutput', 'trainingOutput', 'clinicalContent', 'reportPreview'];
+            specialIds.forEach(id => {
+                const node = doc.getElementById(id);
+                if (node) {
+                    const text = node.textContent.trim();
+                    if (text) {
+                        section.push(`Seção ${id}:`);
+                        section.push(text.substring(0, 800));
+                    }
+                }
+            });
+
+            return section;
+        };
+
+        const buildPdfContent = async () => {
+            const logo = 'BioWinger OS - Relatório de Exportação';
+            const date = new Date().toLocaleString('pt-BR');
+            const history = getStoredHistory();
+            const content = [logo, 'Gerado em: ' + date, ''];
+
+            appendLog(`Lendo histórico local (${history.length} registros).`);
+            if (history.length === 0) {
+                content.push('Nenhum registro clínico encontrado no storage. Preencha os formulários no site e atualize esta página.');
+            } else {
+                content.push('Histórico de Diagnósticos e Dor:');
+                history.slice(0, 10).forEach((entry, index) => {
+                    content.push(`- ${index + 1}. ${entry.date || 'Data não informada'} | Doença: ${entry.disease || 'N/D'} | Local: ${entry.location || 'N/D'} | Dor: ${entry.pain || 'N/D'}`);
+                    if (entry.recommendation) content.push(`  Recomendação: ${entry.recommendation}`);
+                });
+            }
+            content.push('');
+
+            for (const path of pagePaths) {
+                try {
+                    const doc = await fetchPage(path);
+                    const title = doc.querySelector('title')?.textContent.trim() || path;
+                    content.push('=== ' + title + ' ===');
+                    const extracted = extractTextSection(doc, title);
+                    if (extracted.length === 0) {
+                        content.push('Conteúdo não identificado ou página vazia.');
+                    } else {
+                        content.push(...extracted);
+                    }
+                    content.push('');
+                } catch (error) {
+                    appendLog(`Erro ao ler ${path}: ${error.message}`);
+                    content.push(`=== ${path} ===`);
+                    content.push('Falha ao carregar esta página.');
+                    content.push('');
+                }
+            }
+
+            const summaryLines = ['Relatório montado a partir do conteúdo disponível no site e do histórico salvo no navegador.'];
+            content.push(...summaryLines);
+            return content;
+        };
+
+        const generatePdf = async () => {
+            downloadBtn.style.display = 'none';
+            preview.textContent = 'Montando relatório, aguarde...';
+            appendLog('Iniciando geração de relatório.');
+
+            try {
+                const sections = await buildPdfContent();
+                preview.textContent = sections.join('\n\n');
+                appendLog('Resumo preparado. Gerando PDF...');
+
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF({ unit: 'pt', format: 'a4' });
+                const margin = 40;
+                let y = 50;
+                const pageHeight = doc.internal.pageSize.height;
+                const lineHeight = 14;
+                doc.setFont('helvetica', 'bold');
+                doc.setFontSize(18);
+                doc.text('BioWinger OS - Relatório de Exportação', margin, y);
+                doc.setFontSize(10);
+                doc.setFont('helvetica', 'normal');
+                y += 22;
+                doc.text(`Gerado em: ${new Date().toLocaleString('pt-BR')}`, margin, y);
+                y += 30;
+
+                sections.forEach((block) => {
+                    const lines = doc.splitTextToSize(block, 520);
+                    lines.forEach((line) => {
+                        if (y + lineHeight > pageHeight - 40) {
+                            doc.addPage();
+                            y = 50;
+                        }
+                        doc.text(line, margin, y);
+                        y += lineHeight;
+                    });
+                    y += 8;
+                });
+
+                lastPdfBlob = doc.output('blob');
+                downloadBtn.style.display = 'inline-flex';
+                downloadBtn.onclick = () => {
+                    doc.save('BIOWINGER_RELATORIO.pdf');
+                };
+                appendLog('PDF pronto para download. Clique em baixar.');
+                preview.scrollTop = 0;
+            } catch (error) {
+                preview.textContent = 'Erro ao gerar relatório: ' + error.message;
+                appendLog('Erro de geração: ' + error.message);
+            }
+        };
+
+        document.getElementById('generatePdfBtn').addEventListener('click', generatePdf);
+    </script>
+</body>
+</html>
