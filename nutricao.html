@@ -9,186 +9,25 @@
     <link href="https://googleapis.com" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     
-    <style>
-        :root {
-            --nutri-mint: #2ecc71;
-            --nutri-dark: #1e8449;
-            --nutri-light: #e9f7ef;
-            --gold: #f1c40f;
-            --glass-bg: rgba(255, 255, 255, 0.9);
-            --transition-pro: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        body {
-            background-color: #f0f4f3;
-            background-image: radial-gradient(at 0% 0%, hsla(145,72%,91%,1) 0, transparent 50%), 
-                              radial-gradient(at 50% 0%, hsla(152,72%,91%,1) 0, transparent 50%);
-            min-height: 100vh;
-        }
-
-        /* HEADER & HERO */
-        .nutri-header {
-            padding: 120px 5% 60px;
-            text-align: center;
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-
-        .nutri-header h1 {
-            font-size: 4.5rem;
-            line-height: 1;
-            letter-spacing: -3px;
-            margin-bottom: 25px;
-            color: var(--slate-900);
-        }
-
-        .highlight-gold { color: var(--gold); }
-
-        /* DASHBOARD DE PERIODIZAÇÃO */
-        .dashboard-grid {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 30px;
-            margin-bottom: 60px;
-        }
-
-        .glass-panel {
-            background: var(--glass-bg);
-            backdrop-filter: blur(10px);
-            border-radius: 35px;
-            padding: 45px;
-            border: 1px solid rgba(255,255,255,0.5);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.05);
-        }
-
-        /* CARD DE NUTRIENTES ESPECÍFICOS */
-        .nutrient-track {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        .nutrient-item {
-            background: var(--white);
-            padding: 20px;
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            transition: var(--transition-pro);
-            border: 1px solid transparent;
-        }
-
-        .nutrient-item:hover {
-            transform: scale(1.03);
-            border-color: var(--nutri-mint);
-            box-shadow: 0 10px 30px rgba(46, 204, 113, 0.1);
-        }
-
-        .nutrient-icon {
-            width: 50px;
-            height: 50px;
-            background: var(--nutri-light);
-            border-radius: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-        }
-
-        /* TABELA DE CARGA DE CARBOIDRATOS */
-        .carb-table {
-            width: 100%;
-            border-collapse: separate;
-            border-spacing: 0 10px;
-            margin-top: 20px;
-        }
-
-        .carb-table th {
-            text-align: left;
-            padding: 15px;
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-        }
-
-        .carb-table td {
-            background: var(--white-soft);
-            padding: 20px;
-            font-weight: 600;
-        }
-
-        .carb-table tr td:first-child { border-radius: 15px 0 0 15px; }
-        .carb-table tr td:last-child { border-radius: 0 15px 15px 0; color: var(--nutri-mint); }
-
-        /* SEÇÃO OSTEOCONDRITE & REPARAÇÃO */
-        .rehab-nutrition {
-            background: var(--slate-900);
-            color: white;
-            border-radius: 40px;
-            padding: 60px;
-            position: relative;
-            overflow: hidden;
-            margin-bottom: 80px;
-        }
-
-        .rehab-nutrition::after {
-            content: "RECOVERY";
-            position: absolute;
-            right: -20px;
-            bottom: -20px;
-            font-size: 10rem;
-            font-weight: 900;
-            color: rgba(255,255,255,0.03);
-            pointer-events: none;
-        }
-
-        /* CALCULADORA DE HIDRATAÇÃO SVS (SWEAT VOLUME SYSTEM) */
-        .calc-box {
-            background: rgba(255,255,255,0.1);
-            padding: 30px;
-            border-radius: 25px;
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-
-        .calc-input {
-            width: 100%;
-            padding: 15px;
-            border-radius: 12px;
-            border: none;
-            background: rgba(255,255,255,0.9);
-            margin-bottom: 15px;
-            font-weight: bold;
-        }
-
-        /* FOOTER & NAV */
-        .nav-back {
-            position: fixed;
-            top: 30px;
-            left: 5%;
-            z-index: 1000;
-        }
-
-        .btn-nav {
-            background: var(--white);
-            padding: 12px 25px;
-            border-radius: 50px;
-            text-decoration: none;
-            color: var(--slate-900);
-            font-weight: 800;
-            box-shadow: var(--shadow-md);
-            transition: var(--transition-pro);
-        }
-
-        .btn-nav:hover { background: var(--nutri-mint); color: white; }
-
-        @media (max-width: 992px) {
-            .dashboard-grid { grid-template-columns: 1fr; }
-            .nutri-header h1 { font-size: 3rem; }
-        }
-    </style>
+    
 </head>
 <body>
+
+    <nav class="main-nav">
+        <div class="nav-container">
+            <div class="brand">
+                <span class="title">BIOWINGER</span>
+                <span class="brand-text subtitle">Nutrição de Elite</span>
+            </div>
+            <div class="nav-links">
+                <a href="index.html">Início</a>
+                <a href="main.html">Laboratório</a>
+                <a href="pesquisa.html">Análise</a>
+                <a href="treinosia.html">Treinos</a>
+                <a href="nutricao.html">Nutrição</a>
+            </div>
+        </div>
+    </nav>
 
     <div class="nav-back">
         <a href="main.html" class="btn-nav">← Voltar ao Laboratório</a>
@@ -388,6 +227,24 @@ document.getElementById('downloadPdfBtn').addEventListener('click', () => {
 });
 </script>
 
+<footer class="site-footer">
+    <div class="container footer-grid">
+        <div>
+            <h3>BioWinger OS</h3>
+            <p>Nutrição esportiva integrada com inteligência clínica para jogadores de alta performance.</p>
+        </div>
+        <div class="footer-links">
+            <a href="index.html">Início</a>
+            <a href="main.html">Laboratório</a>
+            <a href="pesquisa.html">Análise</a>
+        </div>
+        <div class="footer-links">
+            <a href="treinosia.html">Treinos IA</a>
+            <a href="nutricao.html">Nutrição</a>
+        </div>
+    </div>
+    <div class="footer-bottom">© 2026 BioWinger OS — Todos os direitos reservados.</div>
+</footer>
 
 </body>
 </html>

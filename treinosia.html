@@ -8,144 +8,8 @@
     <!-- Fonts -->
     <link href="https://googleapis.com" rel="stylesheet">
 
-    <style>
-        /* 
-            BIOWINGER OS v4.0 - MASTER STYLE SHEET 
-            Fiel ao design original, expandido para máxima escala.
-        */
-
-        :root {
-            --primary: #2ecc71;
-            --primary-dark: #27ae60;
-            --primary-light: #d1f2eb;
-            --accent-mint: #1abc9c;
-            --white: #ffffff;
-            --snow: #f8fafc;
-            --slate-50: #f1f5f9;
-            --slate-100: #e2e8f0;
-            --slate-500: #64748b;
-            --slate-800: #1e293b;
-            --slate-900: #0f172a;
-            --danger: #ff4757;
-            --warning: #f1c40f;
-            --success: #2ecc71;
-            --shadow-sm: 0 1px 3px rgba(0,0,0,0.12);
-            --shadow-md: 0 10px 15px -3px rgba(0,0,0,0.05);
-            --shadow-pro: 0 20px 40px -10px rgba(46, 204, 113, 0.2);
-            --radius-lg: 24px;
-            --radius-md: 16px;
-            --nav-height: 80px;
-            --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
-
-        body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            background-color: var(--snow);
-            color: var(--slate-800);
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
-
-        .container { max-width: 1300px; margin: 0 auto; padding: 0 25px; }
-
-        /* LOADER */
-.system-loader {
-    position: fixed; 
-    inset: 0; 
-    background: var(--white);
-    display: flex; 
-    flex-direction: column; /* Alinha os itens um embaixo do outro */
-    align-items: center;    /* Centraliza horizontalmente */
-    justify-content: center;   /* Centraliza verticalmente */
-    z-index: 2000; 
-    transition: opacity 0.6s ease;
-}
-
-.spinner {
-    width: 50px; 
-    height: 50px; 
-    border: 4px solid var(--primary-light);
-    border-top: 4px solid var(--primary); 
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-    /* Removi o margin-bottom fixo para não deslocar o centro perfeito */
-}
-
-@keyframes spin { 
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); } 
-}
-
-        /* NAV */
-        .main-nav {
-            height: var(--nav-height); background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(15px); border-bottom: 1px solid var(--slate-100);
-            position: fixed; top: 0; width: 100%; z-index: 1000;
-            display: flex; align-items: center;
-        }
-        .nav-container { width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 0 25px; }
-        .brand { display: flex; align-items: center; gap: 10px; }
-        .version-badge { font-size: 0.65rem; background: var(--primary-light); color: var(--primary-dark); padding: 2px 8px; border-radius: 6px; }
-
-        /* HERO */
-        .hero-section { padding: 160px 0 80px; background: radial-gradient(circle at 80% 20%, var(--primary-light) 0%, transparent 40%); }
-        .status-indicator {
-            display: inline-flex; align-items: center; gap: 10px;
-            background: var(--white); padding: 8px 16px; border-radius: 50px;
-            font-size: 0.8rem; font-weight: 700; color: var(--primary-dark); box-shadow: var(--shadow-sm);
-        }
-        .pulse-dot { width: 8px; height: 8px; background: var(--primary); border-radius: 50%; animation: pulse-ring 1.5s infinite; }
-        @keyframes pulse-ring { 0% { box-shadow: 0 0 0 0 rgba(46, 204, 113, 0.4); } 70% { box-shadow: 0 0 0 8px rgba(46, 204, 113, 0); } }
-
-        h1 { font-size: 4rem; line-height: 1.1; font-weight: 800; letter-spacing: -2.5px; margin: 25px 0; }
-        .text-gradient { background: linear-gradient(135deg, var(--primary-dark), var(--accent-mint)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-
-        /* GRID */
-        .clinical-grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: 30px; margin-bottom: 80px; }
-        .glass { background: var(--white); border-radius: var(--radius-lg); border: 1px solid var(--slate-100); box-shadow: var(--shadow-md); padding: 40px; }
-        .card-shadow:hover { box-shadow: var(--shadow-pro); transform: translateY(-5px); transition: var(--transition-smooth); }
-
-        /* FORM */
-        .input-field { margin-bottom: 25px; }
-        .input-field label { display: block; font-size: 0.85rem; font-weight: 700; margin-bottom: 8px; color: var(--slate-500); }
-        .input-field select, .input-field input {
-            width: 100%; padding: 14px 18px; border-radius: 12px; border: 2px solid var(--slate-50);
-            background: var(--snow); font-family: inherit; font-size: 0.95rem;
-        }
-
-        /* SLIDER */
-        .styled-slider { width: 100%; appearance: none; height: 10px; background: var(--slate-100); border-radius: 10px; outline: none; }
-        .styled-slider::-webkit-slider-thumb { appearance: none; width: 26px; height: 26px; background: var(--primary); border: 5px solid var(--white); border-radius: 50%; cursor: pointer; }
-
-        /* LOGS */
-        .log-entry { 
-            background: var(--snow); padding: 20px; border-radius: 18px; margin-bottom: 15px; 
-            border-left: 4px solid var(--primary); animation: slide-in 0.4s ease-out;
-        }
-        @keyframes slide-in { from { opacity: 0; transform: translateX(20px); } }
-
-        /* WORKOUT RESULT - DESIGN PREMIUM */
-        #trainingOutput { display: none; margin-bottom: 100px; }
-        .exercise-detail-card {
-            background: var(--white); border-radius: 32px; padding: 40px; margin-bottom: 30px;
-            border: 1px solid var(--slate-100); display: grid; grid-template-columns: 350px 1fr; gap: 40px;
-        }
-        .instruction-box { background: var(--slate-50); border-radius: 20px; padding: 25px; }
-        .instruction-step { display: flex; gap: 15px; margin-bottom: 15px; font-size: 0.9rem; }
-        .step-number { background: var(--primary); color: white; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: 800; flex-shrink: 0; }
-        
-        .badge-pos { background: var(--primary-light); color: var(--primary-dark); padding: 4px 12px; border-radius: 8px; font-weight: 800; font-size: 0.7rem; text-transform: uppercase; }
-        
-        /* ANATOMY SECTION */
-        .anatomy-mini { width: 100%; height: 250px; background: var(--snow); border-radius: 20px; margin-top: 20px; display: flex; align-items: center; justify-content: center; }
-
-        @media (max-width: 1024px) {
-            .clinical-grid, .exercise-detail-card { grid-template-columns: 1fr; }
-            h1 { font-size: 2.5rem; }
-        }
-    </style>
+    
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
@@ -517,5 +381,24 @@
             });
         }
     </script>
+
+    <footer class="site-footer">
+        <div class="container footer-grid">
+            <div>
+                <h3>BioWinger OS</h3>
+                <p>Treinos inteligentes com IA e insights de desempenho clínico para atletas de elite.</p>
+            </div>
+            <div class="footer-links">
+                <a href="index.html">Início</a>
+                <a href="main.html">Laboratório</a>
+                <a href="pesquisa.html">Análise</a>
+            </div>
+            <div class="footer-links">
+                <a href="treinosia.html">Treinos IA</a>
+                <a href="nutricao.html">Nutrição</a>
+            </div>
+        </div>
+        <div class="footer-bottom">© 2026 BioWinger OS — Todos os direitos reservados.</div>
+    </footer>
 </body>
 </html>
